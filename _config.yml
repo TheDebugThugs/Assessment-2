@@ -19,7 +19,7 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Escape from University!
-email: your-email@example.com
+email: stk536@york.ac.uk
 description: >- # this means to ignore newlines until "baseurl:"
   A 2D game about running from the evil professors and ducks that inhibit the University Of York. Created with LibGDX and Java.
 github_username: zoey-ahmed-uni 
