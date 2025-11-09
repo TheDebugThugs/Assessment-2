@@ -33,7 +33,7 @@ plugins:
 show_downloads: true 
 github:
   game_repo : https://github.com/ahmination/2025-26-Engineering-1-
-  jar_url : https://www.youtube.com/shorts/JhKyj8dxBNE
+  jar_url : /assets/Game.jar
 
 # Exclude from processing.
 # The following items will not be processed, by default.
