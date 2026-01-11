@@ -1,7 +1,23 @@
 ---
 layout: post
-title:  "---- Assessment 1 Timeline Snapshots ----"
+title:  "---- Assessment 1 & 2 Timeline Snapshots ----"
 categories: jekyll update
+---
+Assessment 2 Documents 
+---
+
+## Update 1
+![Timline Update 1](/Assessment-2/assets/Timeline 1.png)
+
+## Update 2
+![Timline Update 2](/Assessment-2/assets/Timeline 2.png)
+
+## Update 3
+![Timline Update 3](/Assessment-2/assets/Timeline 3.png)
+
+## Update 4
+![Timline Update 4](/Assessment-2/assets/Timeline 4.png)
+
 ---
 Everything beyond this point is from Assessment 1.
 ---
