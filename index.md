@@ -2,9 +2,9 @@
 layout: default 
 ---
 
-<div style="display: flex; gap: 20px;">
-  <img src="/assets/GameScreenshot.png" alt="Description of image 1" style="width: 50%;">
-  <img src="/assets/GameScreenshot.png" alt="Description of image 2" style="width: 50%;">
+<div style="display: flex; gap: 20px; align-items: flex-start;">
+  <img src="/assets/GameScreenshot.png" alt="Description" style="width: 48%; max-width: 48%;">
+  <img src="/assets/GameScreenshot.png" alt="Description" style="width: 48%; max-width: 48%;">
 </div>
 You wake up in your student accommodation and look outside to realise your campus has been turned into a maze. Make it out of the maze and to the bus to escape campus!
 - Find your bus ticket to escape the university!
