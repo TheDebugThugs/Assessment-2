@@ -7,11 +7,16 @@ Assessment 2 Documents
 ---
 
 ## Testing Documents
+
+JaCoCo reports:
+
 - [Download JaCoCo report windows 2022 (ZIP)](/Assessment-2/assets/jacoco-report-macos-latest.zip)
 - [Download JaCoCo report ubuntu 22.04 (ZIP)](/Assessment-2/assets/jacoco-report-ubuntu-22.04.zip)
 - [Download JaCoCo report macos latest (ZIP)](/Assessment-2/assets/jacoco-report-windows-2022.zip)
 
-[Download Traceability Matrix (PDF) - split over several pages](/Assessment-2/assets/Traceability Matrix.pdf)
+Traceability Matrix:
+
+- [Download Traceability Matrix (PDF) - split over several pages](/Assessment-2/assets/Traceability-Matrix.pdf)
 
 ## Weekly Log
 ![Timline Update 1](/Assessment-2/assets/FWeek1.png)
