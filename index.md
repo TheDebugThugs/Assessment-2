@@ -11,6 +11,16 @@ You wake up in your student accommodation and look outside to realise your campu
 
 
 # Meet The Team
+Assessment 2 Team:
+- Dan Hemsley [@FootlooseGem6](https://github.com/FootlooseGem6)
+- Rosie-Mae Connolly [@rosie-mae](https://github.com/rosie-mae)
+- Mathilde Couturier-Dale [@mcdale16](https://github.com/mcdale16)
+- Oliver Elliott [@oelliott2005](https://github.com/oelliott2005)
+- William Mutch [@enhwill](https://github.com/enhwill)
+- Jennifer Bryant [@jen2626](https://github.com/jen2626)
+- Bader Albeadeeni [@kwqzx](https://github.com/kwqzx)
+
+Assessment 1 Team:
 - Zoey Ahmed: [@zoey-ahmed-uni](https://github.com/zoey-ahmed-uni)
 - Sasha Heer: [@sashaheer](https://github.com/sashaheer)
 - Ahmet Abdulhamit: [@ahmination](https://github.com/ahmination) 
@@ -19,7 +29,9 @@ You wake up in your student accommodation and look outside to realise your campu
 - Oscar Meadowcroft [@OscarMhrh550](https://github.com/OscarMhrh550)
 - Alanah Bell: [@alanahbell](https://github.com/alanahbell)
 
-# PDF Links
+# PDF Links From Assessment Part 2
+
+# PDF Links From Assessment Part 1
 - [Requirements](/assets/PDFs/Req1.pdf)
 - [Architecture](/assets/PDFs/Arch1.pdf)
 - [Method selection and planning](/assets/PDFs/Plan1.pdf)
