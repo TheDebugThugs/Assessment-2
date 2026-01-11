@@ -21,9 +21,9 @@ Assessment 2 Documents
 ## Testing Documents
 
 ---
----
-## Everything beyond this point is from Assessment 1.
----
+
+## **Everything beyond this point is from Assessment 1.**
+
 Screenshots as the timeline updates during the life cycle of the projects.
 
 ## Update 1
