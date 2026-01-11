@@ -6,17 +6,16 @@ categories: jekyll update
 Assessment 2 Documents 
 ---
 
-## Update 1
-![Timline Update 1](/Assessment-2/assets/Timeline 1.png)
-
-## Update 2
-![Timline Update 2](/Assessment-2/assets/Timeline 2.png)
-
-## Update 3
-![Timline Update 3](/Assessment-2/assets/Timeline 3.png)
-
-## Update 4
-![Timline Update 4](/Assessment-2/assets/Timeline 4.png)
+## Weekly Log
+![Timline Update 1](/Assessment-2/assets/FWeek1.png)
+![Timline Update 2](/Assessment-2/assets/FWeek2.png)
+![Timline Update 3](/Assessment-2/assets/FWeek3.png)
+![Timline Update 4](/Assessment-2/assets/FWeek4.png)
+![Timline Update 5](/Assessment-2/assets/FWeek5.png)
+![Timline Update 6](/Assessment-2/assets/FWeek6.png)
+![Timline Update 7](/Assessment-2/assets/FWeek7.png)
+![Timline Update 8](/Assessment-2/assets/FWeek8.png)
+![Timline Update 9](/Assessment-2/assets/FWeek9.png)
 
 ## Testing Documents
 
