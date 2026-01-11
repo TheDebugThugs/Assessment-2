@@ -3,7 +3,7 @@ layout: default
 ---
 
 <div style="display: flex; gap: 20px; align-items: flex-start;">
-  <img src="/Assessment-2/assets/GameScreenshot.png" alt="Description" style="width: 48%; max-width: 48%;">
+  <img src="/Assessment-2/assets/StartScreen.png" alt="Description" style="width: 48%; max-width: 48%;">
   <img src="/Assessment-2/assets/GameScreenshot2.png" alt="Description" style="width: 48%; max-width: 48%;">
 </div>
 You wake up in your student accommodation and look outside to realise your campus has been turned into a maze. Make it out of the maze and to the bus to escape campus!
