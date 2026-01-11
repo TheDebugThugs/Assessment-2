@@ -2,8 +2,10 @@
 layout: default 
 ---
 
-![Screenshot of game, with main character facing forward, and the Dean behind them.](/assets/GameScreenshot.png)
-
+<div style="display: flex; gap: 20px;">
+  <img src="/assets/GameScreenshot.png" alt="Description of image 1" style="width: 50%;">
+  <img src="/assets/GameScreenshot.png" alt="Description of image 2" style="width: 50%;">
+</div>
 You wake up in your student accommodation and look outside to realise your campus has been turned into a maze. Make it out of the maze and to the bus to escape campus!
 - Find your bus ticket to escape the university!
 - Escape from the evil dean, before he sends you back to your dorm!
