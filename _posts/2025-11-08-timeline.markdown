@@ -3,10 +3,9 @@ layout: post
 title:  "---- Assessment 1 Timeline Snapshots ----"
 categories: jekyll update
 ---
-Everything beyond this point is from Assessment 1.
+title: "Everything beyond this point is from Assessment 1. "
+---
 Screenshots as the timeline updates during the life cycle of the projects.
-
-#Timeline Updates
 
 ## Update 1
 ![Timline Update 1](/Assessment-2/assets/Timeline 1.png)
