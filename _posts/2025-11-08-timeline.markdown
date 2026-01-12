@@ -19,6 +19,8 @@ Traceability Matrix:
 
 - [Download Traceability Matrix (PDF) - split over several pages](/Assessment-2/assets/Traceability-Matrix.pdf)
 
+- [Direct URL to Traceability Matrix](https://docs.google.com/spreadsheets/d/1glTDR1mG-X9hMZCe9fLkYBJO096aJf1iZztUK3g3IuE/edit?usp=sharing)
+
 Manual Test Cases:
 
 - [Download Manual Test Cases (PDF)](/Assessment-2/assets/Manual-Test-Cases.pdf)
