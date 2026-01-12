@@ -24,6 +24,8 @@ Traceability Matrix:
 Manual Test Cases:
 
 - [Download Manual Test Cases (PDF)](/Assessment-2/assets/Manual-Test-Cases.pdf)
+  
+- [Direct URL to Manual Test Cases](https://docs.google.com/document/d/151fZ62XXo0vptg9m9VaX_8RdxKwrZ3Vh4kcxIcP6Gtw/edit?usp=sharing)
 
 ## Structural Diagram
 
