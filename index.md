@@ -21,13 +21,13 @@ You wake up in your student accommodation and look outside to realise your campu
 
 # Deliverable PDF Links From Assessment Part 1
 - [Requirements](/Assessment-2/assets/PDFs/Req1.pdf)
-- [Architecture](/assets/PDFs/Arch1.pdf)
+- [Architecture](/Assessment-2/assets/PDFs/Arch1.pdf)
 - [Method selection and planning](/Assessment-2/assets/PDFs/Plan1.pdf)
 - [Risk assessment and mitigation](/Assessment-2/assets/PDFs/Risk1.pdf)
 - [Implementation](/Assessment-2/assets/PDFs/Impl1.pdf)
 
 # Download Team 1's Game
-- [Game (JAR file)](Game.jar)
+- [Game (JAR file)](/Assessment-2/assets/Game.jar)
 
 # Meet The Team
 Assessment 2 Team:
