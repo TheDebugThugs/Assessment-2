@@ -26,6 +26,9 @@ You wake up in your student accommodation and look outside to realise your campu
 - [Risk assessment and mitigation](/Assessment-2/assets/PDFs/Risk1.pdf)
 - [Implementation](/Assessment-2/assets/PDFs/Impl1.pdf)
 
+# Download Team 1's Game
+- [Game (JAR file)](Game.jar)
+
 # Meet The Team
 Assessment 2 Team:
 - Dan Hemsley [@FootlooseGem6](https://github.com/FootlooseGem6)
