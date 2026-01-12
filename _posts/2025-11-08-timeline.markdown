@@ -9,18 +9,23 @@ Assessment 2 Documents
 ## Testing Documents
 
 JaCoCo reports:
+(Download ZIP file and unzip to access HTML)
 
-- [Download JaCoCo report windows 2022 (ZIP)](/Assessment-2/assets/jacoco-report-macos-latest.zip)
+- [Download JaCoCo report windows 2022 (ZIP)](/Assessment-2/assets/jacoco-report-windows-2022.zip)
 - [Download JaCoCo report ubuntu 22.04 (ZIP)](/Assessment-2/assets/jacoco-report-ubuntu-22.04.zip)
-- [Download JaCoCo report macos latest (ZIP)](/Assessment-2/assets/jacoco-report-windows-2022.zip)
+- [Download JaCoCo report macos latest (ZIP)](/Assessment-2/assets/jacoco-report-macos-latest.zip)
 
 Traceability Matrix:
 
 - [Download Traceability Matrix (PDF) - split over several pages](/Assessment-2/assets/Traceability-Matrix.pdf)
 
+- [Direct URL to Traceability Matrix](https://docs.google.com/spreadsheets/d/1glTDR1mG-X9hMZCe9fLkYBJO096aJf1iZztUK3g3IuE/edit?usp=sharing)
+
 Manual Test Cases:
 
 - [Download Manual Test Cases (PDF)](/Assessment-2/assets/Manual-Test-Cases.pdf)
+  
+- [Direct URL to Manual Test Cases](https://docs.google.com/document/d/151fZ62XXo0vptg9m9VaX_8RdxKwrZ3Vh4kcxIcP6Gtw/edit?usp=sharing)
 
 ## Structural Diagram
 

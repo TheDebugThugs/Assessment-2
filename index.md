@@ -10,7 +10,21 @@ You wake up in your student accommodation and look outside to realise your campu
 - Find your bus ticket to escape the university!
 - Escape from the evil dean, before he sends you back to your dorm!
 - Gather sweet treats located around the maze!
+- Feed the local goose!
 
+# Deliverable PDF Links From Assessment Part 2
+- [Change Report](/Assessment-2/assets/Change2.pdf)
+- [Implementation](/Assessment-2/assets/Impl2.pdf)
+- [Testing](/Assessment-2/assets/Test2.pdf)
+- [User Evaluation](/Assessment-2/assets/Eval2.pdf)
+- [Continuous Integration](/Assessment-2/assets/CI2.pdf)
+
+# Deliverable PDF Links From Assessment Part 1
+- [Requirements](/Assessment-2/assets/PDFs/Req1.pdf)
+- [Architecture](/assets/PDFs/Arch1.pdf)
+- [Method selection and planning](/Assessment-2/assets/PDFs/Plan1.pdf)
+- [Risk assessment and mitigation](/Assessment-2/assets/PDFs/Risk1.pdf)
+- [Implementation](/Assessment-2/assets/PDFs/Impl1.pdf)
 
 # Meet The Team
 Assessment 2 Team:
@@ -30,13 +44,3 @@ Assessment 1 Team:
 - Alric Thilak: [@Alricfv](https://github.com/Alricfv)
 - Oscar Meadowcroft [@OscarMhrh550](https://github.com/OscarMhrh550)
 - Alanah Bell: [@alanahbell](https://github.com/alanahbell)
-
-# PDF Links From Assessment Part 2
-
-
-# PDF Links From Assessment Part 1
-- [Requirements](/assets/PDFs/Req1.pdf)
-- [Architecture](/assets/PDFs/Arch1.pdf)
-- [Method selection and planning](/assets/PDFs/Plan1.pdf)
-- [Risk assessment and mitigation](/assets/PDFs/Risk1.pdf)
-- [Implementation](/assets/PDFs/Impl1.pdf)
