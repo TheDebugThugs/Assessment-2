@@ -35,6 +35,11 @@ Manual Test Cases:
   
 - [Direct URL to Manual Test Cases](https://docs.google.com/document/d/151fZ62XXo0vptg9m9VaX_8RdxKwrZ3Vh4kcxIcP6Gtw/edit?usp=sharing)
 
+## Edited Assessment 1 PDF Documents
+- [Architecture 1 Edited (PDF)](/Assessment-2/assets/Arch1Edited)
+- [Method Selection and Planning 1 Edited (PDF)](/Assessment-2/assets/Plan1Edited)
+- [Risk Assessment 1 Edited (PDF)](/Assessment-2/assets/Risk1Edited)
+- [Requirements 1 Edited (PDF)](/Assessment-2/assets/Req1Edited)
 ## Structural Diagram
 
 ![Structural Diagram](/Assessment-2/assets/StructuralDiagram.png)
