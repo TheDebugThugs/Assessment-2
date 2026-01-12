@@ -18,6 +18,10 @@ Traceability Matrix:
 
 - [Download Traceability Matrix (PDF) - split over several pages](/Assessment-2/assets/Traceability-Matrix.pdf)
 
+Manual Test Cases:
+
+- [Download Manual Test Cases (PDF)](/Assessment-2/assets/Manual-Test-Cases.pdf)
+
 ## Weekly Log
 ![Timline Update 1](/Assessment-2/assets/FWeek1.png)
 ![Timline Update 2](/Assessment-2/assets/FWeek2.png)
