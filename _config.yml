@@ -34,7 +34,7 @@ show_downloads: true
 github:
   is_project_page: true
   game_repo : https://github.com/TheDebugThugs/Assessment_Part_2
-  jar_url : /assets/debugthugs.jar
+  jar_url : https://drive.google.com/file/d/1yHZwx-UCU9oDt3Wch_GSGcSYuwCy5mVA/view?usp=sharing
 
 # Exclude from processing.
 # The following items will not be processed, by default.
