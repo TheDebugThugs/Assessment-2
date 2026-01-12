@@ -15,7 +15,6 @@ Pit Mutation Test Report:
 JaCoCo reports:
 
 - [View Jacoco index.html Report(URL)](/Assessment-2/assets/reports/jacoco/html/index.html)
-
 - [View Jacoco sessions Report(URL)](/Assessment-2/assets/reports/jacoco/html/jacoco-sessions.html)
 
 (Download ZIP file and unzip to access HTML)
