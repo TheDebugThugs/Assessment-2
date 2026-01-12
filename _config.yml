@@ -1,49 +1,40 @@
 # ================================
 # Site settings
 # ================================
-
 title: Escape from University!
 email: ltw528@york.ac.uk
 description: >
   A 2D game about escaping a maze at the University of York,
   while evading the dean and collecting sweet treats.
   Created with LibGDX and Java.
-
 github_username: rosie-mae
 
 # ================================
 # Build settings
 # ================================
-
 remote_theme: pages-themes/cayman@v0.2.0
-
 plugins:
   - jekyll-remote-theme
   - jekyll-feed
 
 show_downloads: true
-
 github:
   is_project_page: true
   game_repo: https://github.com/TheDebugThugs/Assessment_Part_2
-  jar_url: https://drive.google.com/file/d/1yHZwx-UCU9oDt3Wch_GSGcSYuwCy5mVA/view?usp=sharing
+  jar_url: https://github.com/TheDebugThugs/Assessment_Part_2/releases/download/v2.0.0/debugthugs.jar
 
 # ================================
 # Static reports (JaCoCo / PIT)
 # ================================
-
-# Do not let Jekyll process generated reports
 defaults:
   - scope:
       path: "assets/reports"
     values:
       layout: null
 
-# Ensure reports are kept when building
 keep_files:
   - assets/reports
 
-# Exclude build artifacts from Jekyll
 exclude:
   - core
   - .sass-cache
