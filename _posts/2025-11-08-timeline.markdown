@@ -46,15 +46,15 @@ Manual Test Cases:
 ![Traceability 3](/Assessment-2/assets/Traceability3.png)
 
 ## Weekly Log
-![Timline Update 1](/Assessment-2/assets/FWeek1.png)
-![Timline Update 2](/Assessment-2/assets/FWeek2.png)
-![Timline Update 3](/Assessment-2/assets/FWeek3.png)
-![Timline Update 4](/Assessment-2/assets/FWeek4.png)
-![Timline Update 5](/Assessment-2/assets/FWeek5.png)
-![Timline Update 6](/Assessment-2/assets/FWeek6.png)
-![Timline Update 7](/Assessment-2/assets/FWeek7.png)
-![Timline Update 8](/Assessment-2/assets/FWeek8.png)
-![Timline Update 9](/Assessment-2/assets/FWeek9.png)
+![Weekly Log 1](/Assessment-2/assets/FWeek1.png)
+![Weekly Log 2](/Assessment-2/assets/FWeek2.png)
+![Weekly Log 3](/Assessment-2/assets/FWeek3.png)
+![Weekly Log 4](/Assessment-2/assets/FWeek4.png)
+![Weekly Log 5](/Assessment-2/assets/FWeek5.png)
+![Weekly Log 6](/Assessment-2/assets/FWeek6.png)
+![Weekly Log 7](/Assessment-2/assets/FWeek7.png)
+![Weekly Log 8](/Assessment-2/assets/FWeek8.png)
+![Weekly Log 9](/Assessment-2/assets/FWeek9.png)
 
 ---
 
