@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LeaderBoard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">LeaderBoard.java</span></div><h1>LeaderBoard.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+/**
+ * LeaderBoard screen
+ */
+public class LeaderBoard implements Screen {
+
+    private final MyGame game;
+    private final int finalScore;
+    private final String name;
+
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private GlyphLayout layout;
+
+    private JSONHandler jsonHandler;
+    private String[] topScores;
+
+<span class="nc" id="L29">    public LeaderBoard(MyGame game, String name, int finalScore) {</span>
+<span class="nc" id="L30">        this.game = game;</span>
+<span class="nc" id="L31">        this.name = name;</span>
+<span class="nc" id="L32">        this.finalScore = finalScore;</span>
+
+<span class="nc" id="L34">        camera = new OrthographicCamera();</span>
+<span class="nc" id="L35">        camera.setToOrtho(false, 640, 480);</span>
+
+<span class="nc" id="L37">        batch = new SpriteBatch();</span>
+<span class="nc" id="L38">        font = new BitmapFont();</span>
+<span class="nc" id="L39">        font.getData().setScale(2.5f);</span>
+
+<span class="nc" id="L41">        layout = new GlyphLayout();</span>
+<span class="nc" id="L42">    }</span>
+
+    @Override
+    public void show() {
+<span class="nc" id="L46">        jsonHandler = new JSONHandler();</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (finalScore &gt; 0) {</span>
+<span class="nc" id="L49">            jsonHandler.writeLeaderboard(name, finalScore);</span>
+        }
+
+<span class="nc" id="L52">        topScores = jsonHandler.readLeaderboardAsStrings();</span>
+<span class="nc" id="L53">    }</span>
+
+    @Override
+    public void render(float delta) {
+<span class="nc" id="L57">        Gdx.gl.glClearColor(0.3f, 0.4f, 0.55f, 1f);</span>
+<span class="nc" id="L58">        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</span>
+
+<span class="nc" id="L60">        camera.update();</span>
+<span class="nc" id="L61">        batch.setProjectionMatrix(camera.combined);</span>
+
+<span class="nc" id="L63">        batch.begin();</span>
+
+<span class="nc" id="L65">        drawCenteredText(&quot;Leaderboard&quot;, 430);</span>
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (topScores != null) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            for (int i = 0; i &lt; topScores.length; i++) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                if (topScores[i] != null) {</span>
+<span class="nc" id="L70">                    drawCenteredText(topScores[i], 370 - (i * 40));</span>
+                }
+            }
+        }
+
+<span class="nc" id="L75">        drawCenteredText(&quot;Your Score: &quot; + finalScore, 150);</span>
+<span class="nc" id="L76">        drawCenteredText(&quot;Press SPACE to return to menu&quot;, 80);</span>
+
+<span class="nc" id="L78">        batch.end();</span>
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {</span>
+<span class="nc" id="L81">            game.setScreen(new MenuScreen(game));</span>
+        }
+<span class="nc" id="L83">    }</span>
+
+    /**
+     * Draws text centered horizontally on screen
+     */
+    private void drawCenteredText(String text, float y) {
+<span class="nc" id="L89">        layout.setText(font, text);</span>
+<span class="nc" id="L90">        float x = (camera.viewportWidth - layout.width) / 2f;</span>
+<span class="nc" id="L91">        font.draw(batch, layout, x, y);</span>
+<span class="nc" id="L92">    }</span>
+
+    @Override
+    public void dispose() {
+<span class="nc" id="L96">        batch.dispose();</span>
+<span class="nc" id="L97">        font.dispose();</span>
+<span class="nc" id="L98">    }</span>
+
+<span class="nc" id="L100">    @Override public void resize(int width, int height) {}</span>
+<span class="nc" id="L101">    @Override public void pause() {}</span>
+<span class="nc" id="L102">    @Override public void resume() {}</span>
+<span class="nc" id="L103">    @Override public void hide() {}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

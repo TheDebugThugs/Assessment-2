@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">JSONHandler.java</span></div><h1>JSONHandler.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+
+/** &lt;code&gt;JSONHandler&lt;/code&gt; handles all JSON input (position, score) ready to read and write from leaderboard.json
+ * @see com.badlogic.gdx.utils.Json */
+public class JSONHandler {
+
+    private final Json json;
+    private final FileHandle file;
+
+<span class="fc" id="L15">    public JSONHandler() {</span>
+<span class="fc" id="L16">        json = new Json();</span>
+<span class="fc" id="L17">        file = Gdx.files.local(&quot;leaderboard.json&quot;);</span>
+<span class="fc" id="L18">    }</span>
+
+    /** &lt;code&gt;readLeaderboard()&lt;/code&gt; reads leaderboard from leaderboard.json */
+    public Array&lt;LeaderboardEntry&gt; readLeaderboard() {
+<span class="pc bpc" id="L22" title="2 of 4 branches missed.">        if (!file.exists() || file.length() == 0) {</span>
+<span class="nc" id="L23">            return new Array&lt;&gt;();</span>
+        }
+<span class="fc" id="L25">        return json.fromJson(Array.class, LeaderboardEntry.class, file);</span>
+    }
+
+    /**
+     * &lt;code&gt;writeLeaderboard(int finalScore)&lt;/code&gt; reads leaderboard from an array of leaderboard entries,
+     * adds new finalScore as entry to leaderboard.json,
+     * sorts the scores into descending order, keeping only the top 5 in the file,
+     * updates the following scores positions if finalScore is within top 5,
+     * save file containing new entries
+     * @param finalScore
+     */
+    public void writeLeaderboard(String name, int finalScore) {
+<span class="fc" id="L37">        Array&lt;LeaderboardEntry&gt; entries = readLeaderboard();</span>
+<span class="fc" id="L38">        entries.add(new LeaderboardEntry(0, name, finalScore));</span>
+<span class="fc" id="L39">        entries.sort((a, b) -&gt; b.score - a.score); // sort descending</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (entries.size &gt; 5) { // keep only top 5</span>
+<span class="fc" id="L42">            entries.truncate(5);</span>
+        }
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (int i = 0; i &lt; entries.size; i++) { // update following entries</span>
+<span class="fc" id="L45">            entries.get(i).position = i + 1;</span>
+        }
+<span class="fc" id="L47">        file.writeString(json.prettyPrint(entries), false); // save file</span>
+<span class="fc" id="L48">    }</span>
+
+    /** &lt;code&gt;readLeaderboardAsStrings()&lt;/code&gt; returns leaderboard as strings for drawing */
+    public String[] readLeaderboardAsStrings() {
+<span class="fc" id="L52">        Array&lt;LeaderboardEntry&gt; entries = readLeaderboard();</span>
+<span class="fc" id="L53">        String[] result = new String[5];</span>
+
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        for (int i = 0; i &lt; entries.size; i++) {</span>
+<span class="fc" id="L56">            LeaderboardEntry entry = entries.get(i);</span>
+<span class="fc" id="L57">            result[i] = entry.position + &quot;) &quot; + entry.name + &quot;: &quot; + entry.score;</span>
+        }
+<span class="fc" id="L59">        return result;</span>
+    }
+
+    /** &lt;code&gt;resetFile()&lt;/code&gt; clears leaderboard, for testing purposes only */
+    public void resetFile() {
+<span class="fc" id="L64">        file.writeString(&quot;[]&quot;, false);</span>
+<span class="fc" id="L65">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

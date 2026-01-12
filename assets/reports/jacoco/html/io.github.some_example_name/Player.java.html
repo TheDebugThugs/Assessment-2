@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+/**
+ * &lt;code&gt; Player &lt;/code&gt; is the main character of the game, handling rendering and direction of the character sprite.
+ */
+public class Player
+{
+	/**
+	 * Enumeration of all the possible directions the player sprite can face.
+	 */
+<span class="fc" id="L16">	public enum Direction</span>
+	{
+		/** Face North */
+<span class="fc" id="L19">		UP,</span>
+		/** Face South */
+<span class="fc" id="L21">		DOWN,</span>
+		/** Face West */
+<span class="fc" id="L23">		LEFT,</span>
+		/** Face East */
+<span class="fc" id="L25">		RIGHT,</span>
+        /** Face North East */
+<span class="fc" id="L27">        NORTHEAST,</span>
+        /** Face North West */
+<span class="fc" id="L29">        NORTHWEST,</span>
+        /** Face South East */
+<span class="fc" id="L31">        SOUTHEAST,</span>
+        /** Face South West */
+<span class="fc" id="L33">        SOUTHWEST</span>
+	}
+
+	private Vector2 position;
+    private Vector2 startPosition;
+	private Texture frontTexture;
+	private Texture backTexture;
+	private Texture sideTexture;
+	private TextureRegion frontFrame;
+	private TextureRegion backFrame;
+	private TextureRegion sideFrame;
+	private TextureRegion currentFrame;
+    private Rectangle slimeCollision;
+
+	/**
+	 * Constructor for &lt;code&gt; Player &lt;/code&gt;, with a set of coordinates.
+	 * @param x Horizontal position for player to spawn in.
+	 * @param y Vertical position for player to spawn in.
+	 */
+	public Player(float x, float y)
+	{
+		position = new Vector2(x, y);
+        startPosition = new Vector2(x, y);
+
+        frontTexture = new Texture(&quot;Player-front.png&quot;);
+		backTexture = new Texture(&quot;Player-back.png&quot;);
+		sideTexture= new Texture (&quot;Player-side.png&quot;);
+
+		frontFrame = new TextureRegion(frontTexture);
+		backFrame = new TextureRegion(backTexture);
+		sideFrame = new TextureRegion(sideTexture);
+
+        slimeCollision = new Rectangle(position.x, position.y,20,20);
+
+		currentFrame = frontFrame;
+	}
+
+	/**
+	 * Called to set the direction of the Player sprite.
+	 * @param newDirection the direction the player should face.
+	 * @see Direction Direction.
+	 */
+    public void setDirection(Direction newDirection) {
+        PlayerLogic.FrameState state = PlayerLogic.decideFrame(newDirection);
+
+        switch (state.frame) {
+            case FRONT:
+                currentFrame = frontFrame;
+                break;
+            case BACK:
+                currentFrame = backFrame;
+                break;
+            case SIDE:
+                currentFrame = sideFrame;
+                break;
+        }
+
+        if (currentFrame.isFlipX() != state.flipX) {
+            currentFrame.flip(true, false);
+        }
+    }
+
+
+
+    /**
+	 * Convenience method to be called by the game screen's &lt;code&gt; render()
+	 * &lt;/code&gt; method, to draw the player using a SpriteBatch at the current
+	 * player coordinates.
+	 * @param batch SpriteBatch used by application to render all sprites.
+	 * @see com.badlogic.gdx.graphics.g2d.SpriteBatch SpriteBatch
+	 * @see com.badlogic.gdx.Screen#render Screen.render().
+	 */
+	public void render(SpriteBatch batch) {
+		batch.draw(currentFrame, position.x, position.y);
+        slimeCollision.setPosition(position.x, position.y);
+	}
+
+	/**
+	 * Get the player's position in world.
+	 * @return The players x-by-y coordinates as a 2D vector.
+	 */
+	public Vector2 getPosition()
+	{
+		return position;
+	}
+
+    public Rectangle getSlimeCollision() {
+        return slimeCollision;
+    }
+
+    public void resetToStart() {
+        position.set(startPosition);
+    }
+	/**
+	 * Convenience method to be called by application to dispose of textures
+	 * of player's sprites when the application's dispose method is called.
+	 * @see com.badlogic.gdx.Screen#dispose Screen.dispose().
+	 */
+	public void dispose()
+	{
+		frontTexture.dispose();
+		backTexture.dispose();
+		sideTexture.dispose();
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

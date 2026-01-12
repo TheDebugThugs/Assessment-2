@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Safe.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">Safe.java</span></div><h1>Safe.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+
+public class Safe {
+
+    private Texture safeTexture;
+    private Vector2 position;
+<span class="nc" id="L15">    private StringBuilder input = new StringBuilder();</span>
+
+    private int code;
+    private int code1;
+    private String Scode1;
+    private int code2;
+    private String Scode2;
+
+<span class="nc" id="L23">    private boolean checked = false;</span>
+<span class="nc" id="L24">    private boolean searched = false;</span>
+<span class="nc" id="L25">    private boolean message = false;</span>
+<span class="nc" id="L26">    private boolean eventTriggered = false; // prevents double counting</span>
+    private float wait;
+
+    // reference to GameScreen
+    private GameScreen gameScreen;
+
+<span class="nc" id="L32">    public Safe(float x, float y, GameScreen gameScreen) {</span>
+<span class="nc" id="L33">        this.gameScreen = gameScreen;</span>
+
+<span class="nc" id="L35">        safeTexture = new Texture(&quot;Safe.png&quot;);</span>
+<span class="nc" id="L36">        position = new Vector2(x, y);</span>
+
+<span class="nc" id="L38">        wait = 3f;</span>
+<span class="nc" id="L39">        code = MathUtils.random(0, 9999);</span>
+<span class="nc" id="L40">        code1 = code / 100;</span>
+<span class="nc" id="L41">        code2 = code - code1 * 100;</span>
+<span class="nc" id="L42">        Scode1 = String.format(&quot;%02d&quot;, code1);</span>
+<span class="nc" id="L43">        Scode2 = String.format(&quot;%02d&quot;, code2);</span>
+<span class="nc" id="L44">    }</span>
+
+    public void update(Player player, float delta) {
+
+        // open safe
+<span class="nc bnc" id="L49" title="All 6 branches missed.">        if (!searched &amp;&amp; !checked &amp;&amp; Gdx.input.isKeyJustPressed(Input.Keys.E)) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (player.getPosition().dst(position) &lt; 30f) {</span>
+<span class="nc" id="L51">                checked = true;</span>
+<span class="nc" id="L52">                input.setLength(0);</span>
+            }
+        }
+
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (checked) {</span>
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            for (int i = Input.Keys.NUM_0; i &lt;= Input.Keys.NUM_9; i++) {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                if (Gdx.input.isKeyJustPressed(i)) {</span>
+<span class="nc" id="L60">                    input.append((char) ('0' + (i - Input.Keys.NUM_0)));</span>
+                }
+            }
+
+<span class="nc bnc" id="L64" title="All 4 branches missed.">            if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE) &amp;&amp; input.length() &gt; 0) {</span>
+<span class="nc" id="L65">                input.deleteCharAt(input.length() - 1);</span>
+            }
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                if (input.toString().equals(Scode1 + Scode2)) {</span>
+<span class="nc" id="L71">                    searched = true;</span>
+<span class="nc" id="L72">                    message = true;</span>
+
+                    // notify GameScreen ONCE
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                    if (!eventTriggered) {</span>
+<span class="nc" id="L76">                        gameScreen.onSafeOpened();</span>
+<span class="nc" id="L77">                        eventTriggered = true;</span>
+                    }
+                }
+
+<span class="nc" id="L81">                checked = false;</span>
+            }
+        }
+<span class="nc" id="L84">    }</span>
+
+    public void render(SpriteBatch batch) {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (!searched) {</span>
+<span class="nc" id="L88">            batch.draw(safeTexture, position.x, position.y, 20, 20);</span>
+        }
+<span class="nc" id="L90">    }</span>
+
+    public void renderCode(SpriteBatch batch, BitmapFont font, float delta) {
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (checked) {</span>
+<span class="nc" id="L95">            font.draw(batch, &quot;Enter Code:&quot;, position.x - 100, position.y);</span>
+<span class="nc" id="L96">            font.draw(batch, input.toString(), position.x - 100, position.y - 30);</span>
+<span class="nc" id="L97">            font.draw(batch, &quot;(Press ENTER to submit)&quot;, position.x - 100, position.y - 60);</span>
+        }
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (message) {</span>
+<span class="nc" id="L101">            font.draw(batch, &quot;IT WAS FILLED WITH SMELLY SOCKS D:&quot;, position.x, position.y);</span>
+<span class="nc" id="L102">            wait -= delta;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if (wait &lt;= 0) {</span>
+<span class="nc" id="L104">                message = false;</span>
+            }
+        }
+<span class="nc" id="L107">    }</span>
+
+    public String getCode1() {
+<span class="nc" id="L110">        return Scode1;</span>
+    }
+
+    public String getCode2() {
+<span class="nc" id="L114">        return Scode2;</span>
+    }
+
+    public boolean isChecked() {
+<span class="nc" id="L118">        return checked;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

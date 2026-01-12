@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Achievements.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">Achievements.java</span></div><h1>Achievements.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public class Achievements {
+    private Texture texture;
+    private float y;
+<span class="nc" id="L11">    private float speed = 2000f;</span>
+<span class="nc" id="L12">    private boolean visible = false;</span>
+<span class="nc" id="L13">    private float targetY = 20f;</span>
+<span class="nc" id="L14">    private boolean unlocked = false; // tracks if achievement is unlocked</span>
+    private static Achievements activeAchievement;
+
+<span class="nc" id="L17">    public Achievements(String image) {</span>
+<span class="nc" id="L18">        texture = new Texture(image);</span>
+<span class="nc" id="L19">        y = -texture.getHeight();</span>
+<span class="nc" id="L20">    }</span>
+
+    public void unlock() { // unlock achievement and show it
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (!unlocked) {</span>
+<span class="nc" id="L24">            unlocked = true;</span>
+<span class="nc" id="L25">            show();</span>
+        }
+<span class="nc" id="L27">    }</span>
+
+    public void show() {
+<span class="nc bnc" id="L30" title="All 4 branches missed.">        if (activeAchievement != null &amp;&amp; activeAchievement != this) {</span>
+<span class="nc" id="L31">            activeAchievement.invisible();</span>
+        }
+<span class="nc" id="L33">        activeAchievement = this;</span>
+<span class="nc" id="L34">        visible = true;</span>
+<span class="nc" id="L35">    }</span>
+
+    public void invisible() {
+<span class="nc" id="L38">        visible = false;</span>
+<span class="nc" id="L39">    }</span>
+
+    public void update(float delta) {
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (visible) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (y &lt; targetY) {</span>
+<span class="nc" id="L44">                y += speed * delta;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                if (y &gt; targetY) y = targetY;</span>
+            }
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {</span>
+<span class="nc" id="L49">                visible = false;</span>
+            }
+        }
+<span class="nc" id="L52">    }</span>
+
+    public void draw(SpriteBatch batch, float screenWidth) {
+<span class="nc" id="L55">        float scaleX = 0.2f;</span>
+<span class="nc" id="L56">        float scaleY = 0.4f;</span>
+<span class="nc" id="L57">        float x = 5;</span>
+<span class="nc" id="L58">        float y_new = -15;</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (visible) {</span>
+<span class="nc" id="L60">            batch.draw(texture, x, y_new, texture.getWidth() * scaleX, texture.getHeight() * scaleY);</span>
+        }
+<span class="nc" id="L62">    }</span>
+
+    public boolean isUnlocked() {
+<span class="nc" id="L65">        return unlocked;</span>
+    }
+
+    public void dispose() {
+<span class="nc" id="L69">        texture.dispose();</span>
+<span class="nc" id="L70">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

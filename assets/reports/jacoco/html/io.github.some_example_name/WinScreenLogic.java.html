@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WinScreenLogic.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">WinScreenLogic.java</span></div><h1>WinScreenLogic.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+public class WinScreenLogic {
+
+    private StringBuilder input;
+    private boolean nameConfirmed;
+    private float cursorTimer;
+    private boolean cursorVisible;
+
+<span class="fc" id="L10">    public WinScreenLogic() {</span>
+<span class="fc" id="L11">        input = new StringBuilder();</span>
+<span class="fc" id="L12">        nameConfirmed = false;</span>
+<span class="fc" id="L13">        cursorTimer = 0f;</span>
+<span class="fc" id="L14">        cursorVisible = true;</span>
+<span class="fc" id="L15">    }</span>
+
+    public String getName() {
+<span class="fc" id="L18">        return input.toString();</span>
+    }
+
+    public boolean isNameConfirmed() {
+<span class="fc" id="L22">        return nameConfirmed;</span>
+    }
+
+    public void processKeyTyped(char character) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (nameConfirmed) return;</span>
+
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (character == '\b') {</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">            if (input.length() &gt; 0) {</span>
+<span class="fc" id="L30">                input.deleteCharAt(input.length() - 1);</span>
+            }
+<span class="fc" id="L32">            return;</span>
+        }
+
+<span class="fc bfc" id="L35" title="All 4 branches covered.">        if (character == '\r' || character == '\n') {</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if (input.length() &gt; 0) {</span>
+<span class="fc" id="L37">                nameConfirmed = true;</span>
+            }
+<span class="fc" id="L39">            return;</span>
+        }
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (input.length() &gt;= 12) return;</span>
+
+<span class="pc bpc" id="L44" title="1 of 4 branches missed.">        if (Character.isLetterOrDigit(character) || character == ' ') {</span>
+<span class="fc" id="L45">            input.append(character);</span>
+        }
+<span class="fc" id="L47">    }</span>
+
+    public void update(float delta) {
+<span class="fc" id="L50">        cursorTimer += delta;</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if (cursorTimer &gt;= 0.5f) {</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            cursorVisible = !cursorVisible;  // Toggle cursor visibility</span>
+<span class="fc" id="L53">            cursorTimer = 0f;</span>
+        }
+<span class="fc" id="L55">    }</span>
+
+    public boolean isCursorVisible() {
+<span class="fc" id="L58">        return cursorVisible;</span>
+    }
+
+    public void resetInput() {
+<span class="nc" id="L62">        input.setLength(0);</span>
+<span class="nc" id="L63">        nameConfirmed = false;</span>
+<span class="nc" id="L64">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
