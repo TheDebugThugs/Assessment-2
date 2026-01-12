@@ -12,14 +12,19 @@ You wake up in your student accommodation and look outside to realise your campu
 - Gather sweet treats located around the maze!
 - Feed the local goose!
 
-# PDF Links From Assessment Part 2
+# Deliverable PDF Links From Assessment Part 2
+- [Change Report](/Assessment-2/assets/PDFs/Change2.pdf)
+- [Implementation](/Assessment-2/assets/PDFs/Impl2.pdf)
+- [Testing](/Assessment-2/assets/PDFs/Test2.pdf)
+- [User Evaluation](/Assessment-2/assets/PDFs/Eval2.pdf)
+- [Continuous Integration](/Assessment-2/assets/PDFs/CI2.pdf)
 
-# PDF Links From Assessment Part 1
-- [Requirements](/assets/PDFs/Req1.pdf)
+# Deliverable PDF Links From Assessment Part 1
+- [Requirements](/Assessment-2/assets/PDFs/Req1.pdf)
 - [Architecture](/assets/PDFs/Arch1.pdf)
-- [Method selection and planning](/assets/PDFs/Plan1.pdf)
-- [Risk assessment and mitigation](/assets/PDFs/Risk1.pdf)
-- [Implementation](/assets/PDFs/Impl1.pdf)
+- [Method selection and planning](/Assessment-2/assets/PDFs/Plan1.pdf)
+- [Risk assessment and mitigation](/Assessment-2/assets/PDFs/Risk1.pdf)
+- [Implementation](/Assessment-2/assets/PDFs/Impl1.pdf)
 
 # Meet The Team
 Assessment 2 Team:
