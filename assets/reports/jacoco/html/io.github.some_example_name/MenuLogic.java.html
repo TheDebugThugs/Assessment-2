@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuLogic.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">MenuLogic.java</span></div><h1>MenuLogic.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+<span class="nc" id="L3">public class MenuLogic {</span>
+
+<span class="fc" id="L5">    public enum Action {</span>
+<span class="fc" id="L6">        START_GAME,</span>
+<span class="fc" id="L7">        OPEN_LEADERBOARD,</span>
+<span class="fc" id="L8">        OPEN_SETTINGS,</span>
+<span class="fc" id="L9">        EXIT,</span>
+<span class="fc" id="L10">        NONE</span>
+    }
+
+    public static Action decide(
+        boolean spacePressed,
+        boolean escapePressed,
+        boolean lPressed,
+        boolean sPressed
+    ) {
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (spacePressed) return Action.START_GAME;</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (escapePressed) return Action.EXIT;</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (lPressed) return Action.OPEN_LEADERBOARD;</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (sPressed) return Action.OPEN_SETTINGS;</span>
+<span class="fc" id="L23">        return Action.NONE;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

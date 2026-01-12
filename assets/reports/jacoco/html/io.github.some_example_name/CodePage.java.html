@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CodePage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">CodePage.java</span></div><h1>CodePage.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+
+public class CodePage {
+
+    private Texture pageTexture;
+    private Vector2 position;
+    private BitmapFont font;
+    private BitmapFont font2;
+    private String codeHalf;
+
+    // Logic extracted for testability
+    private final CodePageLogic logic;
+
+<span class="nc" id="L23">    public CodePage(float x, float y, int pageNo, String code) {</span>
+<span class="nc" id="L24">        this.pageTexture = new Texture(&quot;Page&quot; + pageNo + &quot;.png&quot;);</span>
+<span class="nc" id="L25">        this.codeHalf = code;</span>
+<span class="nc" id="L26">        this.position = new Vector2(x, y);</span>
+
+<span class="nc" id="L28">        this.logic = new CodePageLogic();</span>
+
+<span class="nc" id="L30">        font = new BitmapFont();</span>
+<span class="nc" id="L31">        font.getData().setScale(4f);</span>
+<span class="nc" id="L32">        font.setColor(Color.BLACK);</span>
+
+<span class="nc" id="L34">        font2 = new BitmapFont();</span>
+<span class="nc" id="L35">        font2.setColor(Color.BLACK);</span>
+<span class="nc" id="L36">        font2.getData().setScale(0.8f);</span>
+<span class="nc" id="L37">    }</span>
+
+    /**
+     * Update attributes of page and handle interaction.
+     */
+    public void update(Player player, float delta) {
+<span class="nc" id="L43">        logic.handleInteraction(</span>
+<span class="nc" id="L44">            player.getPosition(),</span>
+            position,
+<span class="nc" id="L46">            Gdx.input.isKeyJustPressed(Input.Keys.E)</span>
+        );
+<span class="nc" id="L48">    }</span>
+
+    /**
+     * Draw page in the world when not being looked at.
+     */
+    public void render(SpriteBatch batch) {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (!logic.isLooking()) {</span>
+<span class="nc" id="L55">            batch.draw(pageTexture, position.x, position.y, 15, 15);</span>
+        }
+<span class="nc" id="L57">    }</span>
+
+    /**
+     * Draw enlarged page and text when being looked at.
+     */
+    public void render2(SpriteBatch batch, OrthographicCamera camera) {
+<span class="nc" id="L63">        float width = 150f;</span>
+<span class="nc" id="L64">        float height = 150f;</span>
+
+<span class="nc" id="L66">        float x = camera.position.x - width / 2f;</span>
+<span class="nc" id="L67">        float y = camera.position.y - height / 2f;</span>
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (logic.isLooking()) {</span>
+<span class="nc" id="L70">            batch.draw(pageTexture, x, y, width, height);</span>
+<span class="nc" id="L71">            font.draw(batch, codeHalf, x + 35, y + height - 40);</span>
+<span class="nc" id="L72">            font2.draw(batch, &quot;press E to exit&quot;, x + 35, y + 2);</span>
+        }
+<span class="nc" id="L74">    }</span>
+
+    /**
+     * Return if player is currently looking at the page.
+     */
+    public boolean getLooking() {
+<span class="nc" id="L80">        return logic.isLooking();</span>
+    }
+
+    public void dispose() {
+<span class="nc" id="L84">        pageTexture.dispose();</span>
+<span class="nc" id="L85">        font.dispose();</span>
+<span class="nc" id="L86">        font2.dispose();</span>
+<span class="nc" id="L87">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

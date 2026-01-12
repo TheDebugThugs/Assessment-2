@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NPC.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">NPC.java</span></div><h1>NPC.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+/**
+ * &lt;code&gt; NPC &lt;/code&gt; represents NPCs that can provide items or dialog to
+ * the player when interacted with.
+ */
+public class NPC {
+	private Texture texture;
+	private Vector2 position;
+	private Rectangle bounds;
+	private BitmapFont font;
+<span class="nc" id="L20">	private boolean showMessage = false;</span>
+
+	/**
+	 * Constructor for &lt;code&gt; NPC &lt;/code&gt;, with a set of coordinates.
+	 * @param x Horizontal position for NPC to spawn in.
+	 * @param y Vertical position for NPC to spawn in.
+	 */
+<span class="nc" id="L27">	public NPC(float x, float y) {</span>
+<span class="nc" id="L28">		texture = new Texture(&quot;NPC.png&quot;);</span>
+<span class="nc" id="L29">		position = new Vector2(x, y);</span>
+<span class="nc" id="L30">		bounds = new Rectangle(x,y,texture.getWidth(), texture.getHeight());</span>
+<span class="nc" id="L31">		font = new BitmapFont();</span>
+<span class="nc" id="L32">	}</span>
+
+	/**
+     * Update if the dialog is shown to player depending on player position
+     * and if the E key has been pressed recently.
+     *
+     * @param player Player object.
+     */
+    public void update(Player player) {
+<span class="nc" id="L41">        float distance = player.getPosition().dst(position);</span>
+
+<span class="nc" id="L43">        showMessage = NPCLogic.update(</span>
+            showMessage,
+            distance,
+<span class="nc" id="L46">            Gdx.input.isKeyJustPressed(Input.Keys.E),</span>
+<span class="nc" id="L47">            Gdx.input.isKeyJustPressed(Input.Keys.SPACE)</span>
+        );
+<span class="nc" id="L49">    }</span>
+
+    public boolean message(){
+<span class="nc" id="L52">        return showMessage;</span>
+    }
+	/**
+	 * Convenience method to be called by the game screen's &lt;code&gt; render()
+	 * &lt;/code&gt; method, to draw the NPC's sprite and it's dialog using a
+	 * SpriteBatch at the current player coordinates.
+	 * @param batch SpriteBatch used by application to render all sprites.
+	 * @see com.badlogic.gdx.graphics.g2d.SpriteBatch SpriteBatch
+	 * @see com.badlogic.gdx.Screen#render Screen.render().
+	 */
+	public void render(SpriteBatch batch){
+<span class="nc" id="L63">		batch.draw(texture, position.x, position.y);</span>
+	//	if (showMessage){
+	//	    font.draw(
+	//		batch,
+	//		&quot;Hey friend!\nDon't forget your bus ticket...\nyou always drop them by your room&quot;,
+	//		position.x - 100, position.y + texture.getHeight() + 40);
+<span class="nc" id="L69">		}</span>
+	//}
+
+	/**
+	 * Convenience method to be called by application to dispose of textures
+	 * of NPC's sprites and dialog when the application's dispose method is called.
+	 * @see com.badlogic.gdx.Screen#dispose Screen.dispose().
+	 */
+	public void dispose(){
+<span class="nc" id="L78">		texture.dispose();</span>
+<span class="nc" id="L79">		font.dispose();</span>
+<span class="nc" id="L80">	}</span>
+
+	/**
+	 * Get the NPC's position in world.
+	 * @return The players x-by-y coordinates as a 2D vector.
+	 */
+	public Vector2 getPosition() {
+<span class="nc" id="L87">		return position;</span>
+	}
+
+	/**
+	 * Get NPC's collision box.
+	 * @return Rectangle bounds of NPC.
+	 */
+	public Rectangle getBounds() {
+<span class="nc" id="L95">		return bounds;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

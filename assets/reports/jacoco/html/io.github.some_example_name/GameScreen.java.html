@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">GameScreen.java</span></div><h1>GameScreen.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+
+public class GameScreen implements Screen, CellBlockChecker {
+    private final MyGame game;
+<span class="nc" id="L25">    private boolean isPaused = false;</span>
+
+    TiledMap tiledMap;
+    OrthogonalTiledMapRenderer mapRenderer;
+    OrthographicCamera camera;
+    FitViewport viewport;
+
+    private SpriteBatch batch;
+    private Player player;
+
+    private final Stage uiStage;
+    private final Table uiTable;
+    private final Skin uiSkin;
+    private final GameTimer gameTimer;
+
+    private BusTicket busTicket;
+    private Locker locker;
+    private Book book1;
+    private DeanRepellent bottle;
+    private Safe safe;
+    private CodePage page1;
+    private CodePage page2;
+    private BitmapFont font;
+<span class="nc" id="L48">    private boolean canPickUpTicket = false;</span>
+<span class="nc" id="L49">    int quizCorrect = 0;</span>
+
+    // Rectangle class instances
+    private Rectangle busInteractionArea;
+    private Rectangle rock1InteractionArea;
+    private Rectangle rock2InteractionArea;
+    private Rectangle rock3InteractionArea;
+    private Rectangle signInteractionArea;
+    private Rectangle chestInteractionArea;
+
+    // boolean variables
+<span class="nc" id="L60">    private boolean canEndGame = false;</span>
+<span class="nc" id="L61">    private boolean movement = true;</span>
+<span class="nc" id="L62">    private boolean slimeCheck = false;</span>
+<span class="nc" id="L63">    private boolean clicked_once = false;</span>
+<span class="nc" id="L64">    private boolean found_key = false;</span>
+<span class="nc" id="L65">    private boolean has_birdseeds = false;</span>
+<span class="nc" id="L66">    private boolean no_coins = false;</span>
+
+    // event counters
+<span class="nc" id="L69">    private int positiveEvents = 0;</span>
+<span class="nc" id="L70">    private int negativeEvents = 0;</span>
+<span class="nc" id="L71">    private int hiddenEvents = 0;</span>
+
+    // positive event flags
+<span class="nc" id="L74">    private boolean lockerCounted = false;</span>
+<span class="nc" id="L75">    private boolean quizCorrectCounted = false;</span>
+<span class="nc" id="L76">    private boolean gooseFedCounted = false;</span>
+
+    // negative event flags
+<span class="nc" id="L79">    private boolean slimeCounted = false;</span>
+<span class="nc" id="L80">    private boolean deanCounted = false;</span>
+<span class="nc" id="L81">    private boolean quizWrongCounted = false;</span>
+<span class="nc" id="L82">    private boolean rockWrongCounted = false;</span>
+<span class="nc" id="L83">    private boolean safeCounted = false;</span>
+
+    // hidden event flags
+<span class="nc" id="L86">    private boolean repellentCounted = false;</span>
+<span class="nc" id="L87">    private boolean keyCounted = false;</span>
+<span class="nc" id="L88">    private boolean busTicketCounted = false;</span>
+
+    // achievement unlocked validity
+<span class="nc" id="L91">    private boolean goose_unlocked = false; // goose adds 70 points, but also need to add 30 secs to timer</span>
+<span class="nc" id="L92">    private boolean dean_unlocked = false;</span>
+<span class="nc" id="L93">    private boolean quiz_unlocked = false;</span>
+<span class="nc" id="L94">    private boolean safe_unlocked = false; // minus 30 seconds from timer</span>
+    // ----
+
+<span class="nc" id="L97">    private boolean purchasedBirdSeeds = false; // new flag</span>
+<span class="nc" id="L98">    private final int MAP_WIDTH = 640;</span>
+<span class="nc" id="L99">    private final int MAP_HEIGHT = 640;</span>
+
+    private Dean dean;
+    private Goose goose;
+    private NPC friend;
+    private NPC friend2;
+    private NPC friend3;
+<span class="nc" id="L106">    private int timesCaughtByDean = 0;</span>
+    private BitmapFont catchCounterFont;
+    private BirdSeeds birdSeeds;
+    private Slime slimeObj;
+<span class="nc" id="L110">    private boolean gooseTextboxShown = false;</span>
+
+    // -- Textboxes --
+    private Textbox goose_textbox;
+    private Textbox bus_textbox;
+    private Textbox sign_textbox;
+    private Textbox birdseeds_textbox;
+    private Textbox quiz_textbox;
+    private Textbox nothere_textbox;
+    private Textbox found_textbox;
+    private Textbox no_coins_textbox;
+    private Textbox goose_fed_textbox;
+    private Textbox chest_opened_textbox;
+    private Textbox no_key_chest_textbox;
+    private Textbox found_key_textbox;
+    // -----
+
+    // -- Achievements --
+    private Achievement goose_achievement;
+    private Achievement dean_achievement;
+    private Achievement safe_achievement;
+    private Achievement quiz_achievement;
+    // ----
+
+<span class="nc" id="L134">    private int coin_balance = 0;</span>
+
+<span class="nc" id="L136">    public GameScreen(MyGame game) {</span>
+<span class="nc" id="L137">        System.out.println(&quot;NEW GAMESCREEN CREATED&quot;);</span>
+
+<span class="nc" id="L139">        this.game = game;</span>
+
+<span class="nc" id="L141">        camera = new OrthographicCamera();</span>
+<span class="nc" id="L142">        camera.setToOrtho(false, MAP_WIDTH, MAP_HEIGHT);</span>
+<span class="nc" id="L143">        camera.zoom = 0.5f;</span>
+<span class="nc" id="L144">        camera.update();</span>
+
+<span class="nc" id="L146">        tiledMap = new TmxMapLoader().load(&quot;Tile Maps/Final Game Map - Maze (remade).tmx&quot;);</span>
+
+<span class="nc" id="L148">        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);</span>
+<span class="nc" id="L149">        viewport = new FitViewport(640, 360, camera);</span>
+
+<span class="nc" id="L151">        batch = new SpriteBatch();</span>
+<span class="nc" id="L152">        player = new Player(250, 190);</span>
+<span class="nc" id="L153">        locker = new Locker(495, 575);</span>
+
+<span class="nc" id="L155">        safe = new Safe(300, 150, this);</span>
+<span class="nc" id="L156">        page1 = new CodePage(175, 300, 1, safe.getCode1());</span>
+<span class="nc" id="L157">        page2 = new CodePage(500, 70, 2, safe.getCode2());</span>
+<span class="nc" id="L158">        book1 = new Book(850,100, game, this);</span>
+<span class="nc" id="L159">        dean = new Dean(850, 800, player, this);</span>
+<span class="nc" id="L160">        goose = new Goose(300, 300, player, this);</span>
+<span class="nc" id="L161">        bottle = new DeanRepellent(145, 70);</span>
+<span class="nc" id="L162">        friend = new NPC(560, 300);</span>
+<span class="nc" id="L163">        friend2 = new NPC(50, 600);</span>
+<span class="nc" id="L164">        friend3 = new NPC(850, 150);</span>
+<span class="nc" id="L165">        slimeObj = new Slime(250, 190, game);</span>
+
+        // -- Textboxes --
+<span class="nc" id="L168">        goose_textbox = new Textbox(&quot;goose_alert_textbox.png&quot;);</span>
+<span class="nc" id="L169">        bus_textbox = new Textbox(&quot;friend_textbox.png&quot;);</span>
+<span class="nc" id="L170">        sign_textbox = new Textbox(&quot;sign_chest_textbox.png&quot;);</span>
+<span class="nc" id="L171">        birdseeds_textbox = new Textbox(&quot;shop_keeper_textbox.png&quot;);</span>
+<span class="nc" id="L172">        quiz_textbox = new Textbox(&quot;lecturer_textbox.png&quot;);</span>
+<span class="nc" id="L173">        nothere_textbox = new Textbox(&quot;not_here_textbox.png&quot;);</span>
+<span class="nc" id="L174">        found_textbox = new Textbox(&quot;found_key_textbox.png&quot;);</span>
+<span class="nc" id="L175">        no_coins_textbox = new Textbox(&quot;no_coins_textbox.png&quot;);</span>
+<span class="nc" id="L176">        goose_fed_textbox = new Textbox(&quot;goose_reward_textbox.png&quot;);</span>
+<span class="nc" id="L177">        chest_opened_textbox = new Textbox(&quot;opened_chest_textbox.png&quot;);</span>
+<span class="nc" id="L178">        no_key_chest_textbox = new Textbox(&quot;no_key_textbox.png&quot;);</span>
+<span class="nc" id="L179">        found_key_textbox = new Textbox(&quot;found_already_textbox.png&quot;);</span>
+        // ----
+
+        // -- Achievements --
+<span class="nc" id="L183">        goose_achievement = new Achievement(&quot;goose_whisperer_achievement.png&quot;);</span>
+<span class="nc" id="L184">        dean_achievement = new Achievement(&quot;dean_victim_achievement.png&quot;);</span>
+<span class="nc" id="L185">        quiz_achievement = new Achievement(&quot;smart_cookie_achievement.png&quot;);</span>
+<span class="nc" id="L186">        safe_achievement = new Achievement(&quot;stinky_socks_achievement.png&quot;);</span>
+        // ----
+
+<span class="nc" id="L189">        catchCounterFont = new BitmapFont();</span>
+<span class="nc" id="L190">        catchCounterFont.getData().setScale(1.5f);</span>
+<span class="nc" id="L191">        font = new BitmapFont();</span>
+
+<span class="nc" id="L193">        MapObjects eventObjects = tiledMap.getLayers().get(&quot;Events&quot;).getObjects();</span>
+
+<span class="nc" id="L195">        MapObject ticketObject = eventObjects.get(&quot;BusTicket&quot;);</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        if (ticketObject instanceof RectangleMapObject) {</span>
+<span class="nc" id="L197">            RectangleMapObject rect = (RectangleMapObject) ticketObject;</span>
+<span class="nc" id="L198">            busTicket = new BusTicket(rect.getRectangle().x, rect.getRectangle().y);</span>
+        }
+
+<span class="nc" id="L201">        MapObject busObject = eventObjects.get(&quot;Bus&quot;);</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">        if (busObject instanceof RectangleMapObject) {</span>
+<span class="nc" id="L203">            this.busInteractionArea = ((RectangleMapObject) busObject).getRectangle();</span>
+        }
+<span class="nc" id="L205">        MapObject rock1Object = eventObjects.get(&quot;Rock1&quot;);</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        if (rock1Object instanceof RectangleMapObject) {</span>
+<span class="nc" id="L207">            this.rock1InteractionArea = ((RectangleMapObject) rock1Object).getRectangle();</span>
+        }
+<span class="nc" id="L209">        MapObject rock2Object = eventObjects.get(&quot;Rock2&quot;);</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">        if (rock2Object instanceof RectangleMapObject) {</span>
+<span class="nc" id="L211">            this.rock2InteractionArea = ((RectangleMapObject) rock2Object).getRectangle();</span>
+        }
+<span class="nc" id="L213">        MapObject rock3Object = eventObjects.get(&quot;Rock3&quot;);</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">        if (rock3Object instanceof RectangleMapObject) {</span>
+<span class="nc" id="L215">            this.rock3InteractionArea = ((RectangleMapObject) rock3Object).getRectangle();</span>
+        }
+<span class="nc" id="L217">        MapObject signObject = eventObjects.get(&quot;Sign&quot;);</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">        if (signObject instanceof RectangleMapObject) {</span>
+<span class="nc" id="L219">            this.signInteractionArea = ((RectangleMapObject) signObject).getRectangle();</span>
+        }
+<span class="nc" id="L221">        MapObject chestObject = eventObjects.get(&quot;Chest&quot;);</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">        if (chestObject instanceof RectangleMapObject) {</span>
+<span class="nc" id="L223">            this.chestInteractionArea = ((RectangleMapObject) chestObject).getRectangle();</span>
+        }
+
+<span class="nc" id="L226">        uiSkin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
+<span class="nc" id="L227">        uiStage = new Stage(new FitViewport(MAP_WIDTH, MAP_HEIGHT));</span>
+<span class="nc" id="L228">        uiTable = new Table();</span>
+<span class="nc" id="L229">        uiTable.setFillParent(true);</span>
+<span class="nc" id="L230">        uiStage.addActor(uiTable);</span>
+<span class="nc" id="L231">        gameTimer = new GameTimer(uiSkin, uiTable, this.game);</span>
+<span class="nc" id="L232">        uiTable.top().right().pad(10, 0, 0, 10);</span>
+<span class="nc" id="L233">    }</span>
+
+    /**
+     * Update game state from last frame, and render a new frame for the Screen
+     * using updated assets.
+     * @param delta Time in seconds since last frame finished rendering.
+     * @see Screen#render Screen.render().
+     */
+    @Override
+    public void render(float delta) {
+<span class="nc" id="L243">        Gdx.gl.glClearColor(0, 0, 0, 1);</span>
+<span class="nc" id="L244">        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</span>
+
+<span class="nc" id="L246">        handleInput(delta);</span>
+
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        if (isPaused) {</span>
+<span class="nc" id="L249">            camera.update();</span>
+<span class="nc" id="L250">            mapRenderer.setView(camera);</span>
+<span class="nc" id="L251">            mapRenderer.render();</span>
+
+<span class="nc" id="L253">            batch.setProjectionMatrix(camera.combined);</span>
+<span class="nc" id="L254">            batch.begin();</span>
+<span class="nc" id="L255">            font.draw(batch, &quot;Game Paused&quot;, camera.position.x - 50, camera.position.y + 50);</span>
+<span class="nc" id="L256">            player.render(batch);</span>
+<span class="nc bnc" id="L257" title="All 4 branches missed.">            if (busTicket != null &amp;&amp; busTicket.isCollected()) {</span>
+<span class="nc" id="L258">                busTicket.renderAsIcon(batch, camera);</span>
+            }
+<span class="nc" id="L260">            batch.end();</span>
+
+<span class="nc" id="L262">            uiStage.act(delta);</span>
+<span class="nc" id="L263">            uiStage.draw();</span>
+
+<span class="nc" id="L265">            return;</span>
+        }
+
+<span class="nc" id="L268">        friend.update(player);</span>
+<span class="nc" id="L269">        friend2.update(player);</span>
+<span class="nc" id="L270">        friend3.update(player);</span>
+<span class="nc" id="L271">        dean.update(delta);</span>
+        //dean.render(batch);
+<span class="nc bnc" id="L273" title="All 2 branches missed.">        if (dean.caughtPlayer(player)) {</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">            if (!deanCounted) {</span>
+<span class="nc" id="L275">                negativeEvents++;</span>
+<span class="nc" id="L276">                deanCounted = true;</span>
+            }
+<span class="nc" id="L278">            player.resetToStart();</span>
+        }
+<span class="nc bnc" id="L280" title="All 4 branches missed.">        if (!gooseTextboxShown &amp;&amp; goose.caughtPlayer(player)) {</span>
+<span class="nc" id="L281">            goose_textbox.show();</span>
+<span class="nc" id="L282">            gooseTextboxShown = true;</span>
+        }
+<span class="nc bnc" id="L284" title="All 2 branches missed.">        if (friend.message()) {</span>
+<span class="nc" id="L285">            bus_textbox.show();</span>
+        }
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        if (friend2.message()) {</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">            if (!purchasedBirdSeeds) {</span>
+<span class="nc" id="L289">                birdseeds_textbox.show();</span>
+            }
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">                if (coin_balance &gt;= 20) {</span>
+<span class="nc" id="L293">                    has_birdseeds = true;</span>
+<span class="nc" id="L294">                    goose.set_distance();</span>
+<span class="nc" id="L295">                    coin_balance -= 20;</span>
+<span class="nc" id="L296">                    purchasedBirdSeeds = true;</span>
+<span class="nc" id="L297">                    birdseeds_textbox.invisible();</span>
+                } else {
+<span class="nc" id="L299">                    birdseeds_textbox.invisible();</span>
+<span class="nc" id="L300">                    no_coins = true;</span>
+                }
+            }
+        }
+<span class="nc bnc" id="L304" title="All 2 branches missed.">        if (no_coins) {</span>
+<span class="nc" id="L305">            no_coins_textbox.show();</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {</span>
+<span class="nc" id="L307">                no_coins = false;</span>
+            }
+        }
+<span class="nc bnc" id="L310" title="All 2 branches missed.">        if (friend3.message()) {</span>
+<span class="nc" id="L311">            quiz_textbox.show();</span>
+        }
+
+<span class="nc" id="L314">        goose.update(delta);</span>
+<span class="nc" id="L315">        locker.update(player, delta);</span>
+<span class="nc" id="L316">        book1.update(player, delta);</span>
+<span class="nc" id="L317">        bottle.update(player, dean, timesCaughtByDean, delta, this);</span>
+<span class="nc" id="L318">        page1.update(player, delta);</span>
+<span class="nc" id="L319">        page2.update(player, delta);</span>
+<span class="nc" id="L320">        safe.update(player, delta);</span>
+<span class="nc" id="L321">        slimeObj.update(player);</span>
+
+        // -- negative event counter tracking (only events that won't update score infinitely)--
+<span class="nc bnc" id="L324" title="All 4 branches missed.">        if (slimeObj.getSlimeCheck() &amp;&amp; !slimeCounted) {</span>
+<span class="nc" id="L325">            negativeEvents++;</span>
+<span class="nc" id="L326">            slimeCounted = true;</span>
+        }
+<span class="nc bnc" id="L328" title="All 4 branches missed.">        if (timesCaughtByDean &gt; 0 &amp;&amp; !deanCounted) {</span>
+<span class="nc" id="L329">            negativeEvents++;</span>
+<span class="nc" id="L330">            deanCounted = true;</span>
+        }
+        // ----
+
+        // -- positive event counter tracking --
+<span class="nc bnc" id="L335" title="All 4 branches missed.">        if (locker.isBoostActive() &amp;&amp; !lockerCounted) {</span>
+<span class="nc" id="L336">            positiveEvents++;</span>
+<span class="nc" id="L337">            lockerCounted = true;</span>
+        }
+        // ----
+
+        // -- hidden event counter tracking
+<span class="nc bnc" id="L342" title="All 2 branches missed.">        if (busTicket != null) {</span>
+<span class="nc bnc" id="L343" title="All 2 branches missed.">            if (!busTicket.isCollected()) {</span>
+<span class="nc bnc" id="L344" title="All 2 branches missed.">                if (player.getPosition().dst(busTicket.getPosition()) &lt; 16) {</span>
+<span class="nc" id="L345">                    busTicket.discover();</span>
+<span class="nc" id="L346">                    canPickUpTicket = true;</span>
+                } else {
+<span class="nc" id="L348">                    canPickUpTicket = false;</span>
+                }
+            } else {
+<span class="nc" id="L351">                Rectangle playerRect = new Rectangle(player.getPosition().x, player.getPosition().y, 16, 16);</span>
+<span class="nc bnc" id="L352" title="All 2 branches missed.">                if (</span>
+                    busInteractionArea != null &amp;&amp;
+<span class="nc bnc" id="L354" title="All 2 branches missed.">                        playerRect.overlaps(busInteractionArea)</span>
+                ) {
+<span class="nc" id="L356">                    canEndGame = true;</span>
+                } else {
+<span class="nc" id="L358">                    canEndGame = false;</span>
+                }
+            }
+        }
+        // ----
+
+<span class="nc" id="L364">        camera.position.set(player.getPosition().x, player.getPosition().y, 0);</span>
+<span class="nc" id="L365">        camera.update();</span>
+
+<span class="nc" id="L367">        mapRenderer.setView(camera);</span>
+<span class="nc" id="L368">        mapRenderer.render();</span>
+
+        // switch to screen coordinates for the UI elements
+<span class="nc" id="L371">        batch.setProjectionMatrix(uiStage.getCamera().combined);</span>
+<span class="nc" id="L372">        batch.begin();</span>
+
+        // three positive events: quiz (if correct), locker, feeding the goose
+        // five negative events: slime, safe, dean, quiz (if incorrect), rock (if wrong)
+        // three hidden events: dean repellent, key in rock, bus ticket
+<span class="nc" id="L377">        font.draw(batch, &quot;Positive Events Encountered = &quot; + positiveEvents + &quot;/3&quot;, 10, 630);</span>
+<span class="nc" id="L378">        font.draw(batch, &quot;Negative Events Encountered = &quot; + negativeEvents + &quot;/5&quot;, 10, 610);</span>
+<span class="nc" id="L379">        font.draw(batch, &quot;Hidden Events Encountered = &quot; + hiddenEvents + &quot;/3&quot;, 10, 590);</span>
+<span class="nc" id="L380">        font.draw(batch, &quot;Coin balance = &quot; + coin_balance, 10, 570);</span>
+<span class="nc" id="L381">        batch.end();</span>
+
+        // switch back to the game coordinates for game objects
+<span class="nc" id="L384">        batch.setProjectionMatrix(camera.combined);</span>
+<span class="nc" id="L385">        batch.begin();</span>
+<span class="nc" id="L386">        Rectangle playerRect = new Rectangle(player.getPosition().x, player.getPosition().y, 16, 16);</span>
+<span class="nc bnc" id="L387" title="All 6 branches missed.">        if (rock1InteractionArea != null &amp;&amp; playerRect.overlaps(rock1InteractionArea) &amp;&amp; Gdx.input.isKeyJustPressed(Input.Keys.E)) {</span>
+<span class="nc bnc" id="L388" title="All 2 branches missed.">            if (!found_key) {</span>
+                // player pressed wrong rock
+<span class="nc bnc" id="L390" title="All 2 branches missed.">                if (!rockWrongCounted) {</span>
+<span class="nc" id="L391">                    negativeEvents++;</span>
+<span class="nc" id="L392">                    rockWrongCounted = true;</span>
+                }
+<span class="nc" id="L394">                nothere_textbox.show();</span>
+            }
+        }
+<span class="nc bnc" id="L397" title="All 6 branches missed.">        if (rock2InteractionArea != null &amp;&amp; playerRect.overlaps(rock2InteractionArea) &amp;&amp; Gdx.input.isKeyJustPressed(Input.Keys.E)) {</span>
+<span class="nc bnc" id="L398" title="All 2 branches missed.">            if (!found_key) {</span>
+                // player pressed wrong rock
+<span class="nc bnc" id="L400" title="All 2 branches missed.">                if (!rockWrongCounted) {</span>
+<span class="nc" id="L401">                    negativeEvents++;</span>
+<span class="nc" id="L402">                    rockWrongCounted = true;</span>
+                }
+<span class="nc" id="L404">                nothere_textbox.show();</span>
+            }
+        }
+<span class="nc bnc" id="L407" title="All 6 branches missed.">        if (rock3InteractionArea != null &amp;&amp; playerRect.overlaps(rock3InteractionArea) &amp;&amp; Gdx.input.isKeyJustPressed(Input.Keys.E)) {</span>
+<span class="nc bnc" id="L408" title="All 2 branches missed.">            if (found_key == false) {</span>
+                // first time picking up the key
+<span class="nc" id="L410">                found_textbox.show();</span>
+<span class="nc" id="L411">                found_key = true;</span>
+<span class="nc" id="L412">                onHiddenEventCollected();</span>
+<span class="nc bnc" id="L413" title="All 2 branches missed.">            } else if (found_key == true) {</span>
+                // user tries again after key already found
+<span class="nc" id="L415">                found_textbox.invisible();</span>
+<span class="nc" id="L416">                found_key_textbox.show();</span>
+            }
+        }
+<span class="nc bnc" id="L419" title="All 6 branches missed.">        if (signInteractionArea != null &amp;&amp; playerRect.overlaps(signInteractionArea) &amp;&amp; Gdx.input.isKeyPressed(Input.Keys.E)) {</span>
+<span class="nc" id="L420">            sign_textbox.show();</span>
+        }
+<span class="nc bnc" id="L422" title="All 8 branches missed.">        if (chestInteractionArea != null &amp;&amp; clicked_once == false &amp;&amp; playerRect.overlaps(chestInteractionArea) &amp;&amp; Gdx.input.isKeyPressed(Input.Keys.E)) {</span>
+<span class="nc bnc" id="L423" title="All 2 branches missed.">            if(found_key){</span>
+<span class="nc" id="L424">                clicked_once = true;</span>
+<span class="nc" id="L425">                chest_opened_textbox.show();</span>
+<span class="nc" id="L426">                coin_balance = coin_balance + 20;</span>
+            } else {
+<span class="nc" id="L428">                no_key_chest_textbox.show();</span>
+            }
+        }
+
+<span class="nc bnc" id="L432" title="All 4 branches missed.">        if (has_birdseeds &amp;&amp; goose.caughtPlayer(player)) {</span>
+<span class="nc" id="L433">            font.draw(batch, &quot;Press E to feed goose&quot;, camera.position.x - 50, camera.position.y + 50);</span>
+<span class="nc bnc" id="L434" title="All 2 branches missed.">            if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {</span>
+<span class="nc" id="L435">                birdSeeds = new BirdSeeds(player.getPosition().x, player.getPosition().y);</span>
+<span class="nc" id="L436">                birdSeeds.used();</span>
+<span class="nc" id="L437">                goose.seedsUsed();</span>
+<span class="nc" id="L438">                has_birdseeds = false;</span>
+<span class="nc" id="L439">                goose_fed_textbox.show();</span>
+                // small delay of 2 seconds here?
+<span class="nc" id="L441">                goose_achievement.show();</span>
+                //goose_fed_textbox.invisible(); // doesn't like the SPACE input here
+<span class="nc" id="L443">                goose_unlocked = true;</span>
+<span class="nc bnc" id="L444" title="All 2 branches missed.">                if (!gooseFedCounted) {</span>
+<span class="nc" id="L445">                    positiveEvents++;</span>
+<span class="nc" id="L446">                    gooseFedCounted = true;</span>
+<span class="nc" id="L447">                    gameTimer.addTime(30f);</span>
+                }
+            }
+        }
+
+<span class="nc bnc" id="L452" title="All 2 branches missed.">        if (busTicket != null) {</span>
+<span class="nc" id="L453">            busTicket.render(batch);</span>
+        }
+
+<span class="nc bnc" id="L456" title="All 2 branches missed.">        if (canPickUpTicket) {</span>
+<span class="nc" id="L457">            font.draw(</span>
+                batch,
+                &quot;Press E to pick up&quot;,
+<span class="nc" id="L460">                player.getPosition().x - 50,</span>
+<span class="nc" id="L461">                player.getPosition().y + 30</span>
+            );
+        }
+
+<span class="nc bnc" id="L465" title="All 2 branches missed.">        if (canEndGame) {</span>
+<span class="nc" id="L466">            font.draw(</span>
+                batch,
+                &quot;Press E to use ticket&quot;,
+<span class="nc" id="L469">                player.getPosition().x - 50,</span>
+<span class="nc" id="L470">                player.getPosition().y + 30</span>
+            );
+        }
+<span class="nc" id="L473">        batch.end();</span>
+
+<span class="nc" id="L475">        batch.setProjectionMatrix(camera.combined);</span>
+<span class="nc" id="L476">        batch.begin();</span>
+<span class="nc" id="L477">        book1.render(batch);</span>
+<span class="nc" id="L478">        bottle.render(batch);</span>
+<span class="nc" id="L479">        dean.render(batch);</span>
+<span class="nc" id="L480">        goose.render(batch);</span>
+<span class="nc" id="L481">        page1.render(batch);</span>
+<span class="nc" id="L482">        page2.render(batch);</span>
+<span class="nc" id="L483">        safe.render(batch);</span>
+<span class="nc" id="L484">        friend.render(batch);</span>
+<span class="nc" id="L485">        friend2.render(batch);</span>
+<span class="nc" id="L486">        friend3.render(batch);</span>
+<span class="nc" id="L487">        player.render(batch);</span>
+<span class="nc" id="L488">        slimeObj.render(batch);</span>
+<span class="nc" id="L489">        page1.render2(batch, camera);</span>
+<span class="nc" id="L490">        page2.render2(batch, camera);</span>
+<span class="nc bnc" id="L491" title="All 2 branches missed.">        if (birdSeeds != null) {</span>
+<span class="nc" id="L492">            birdSeeds.render(batch);</span>
+        }
+
+<span class="nc bnc" id="L495" title="All 4 branches missed.">        if (busTicket != null &amp;&amp; busTicket.isCollected()) {</span>
+<span class="nc" id="L496">            busTicket.renderAsIcon(batch, camera);</span>
+<span class="nc" id="L497">            onHiddenEventCollected();</span>
+        }
+
+<span class="nc" id="L500">        batch.end();</span>
+
+<span class="nc" id="L502">        batch.setProjectionMatrix(uiStage.getCamera().combined);</span>
+<span class="nc" id="L503">        batch.begin();</span>
+<span class="nc" id="L504">        safe.renderCode(batch, font, delta);</span>
+
+        // -- Textboxes --
+<span class="nc" id="L507">        no_key_chest_textbox.update(delta);</span>
+<span class="nc" id="L508">        no_key_chest_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L509">        goose_textbox.update(delta);</span>
+<span class="nc" id="L510">        goose_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L511">        nothere_textbox.update(delta);</span>
+<span class="nc" id="L512">        nothere_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L513">        found_textbox.update(delta);</span>
+<span class="nc" id="L514">        found_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L515">        bus_textbox.update(delta);</span>
+<span class="nc" id="L516">        bus_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L517">        sign_textbox.update(delta);</span>
+<span class="nc" id="L518">        sign_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L519">        birdseeds_textbox.update(delta);</span>
+<span class="nc" id="L520">        birdseeds_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L521">        quiz_textbox.update(delta);</span>
+<span class="nc" id="L522">        quiz_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L523">        no_coins_textbox.update(delta);</span>
+<span class="nc" id="L524">        no_coins_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L525">        goose_fed_textbox.update(delta);</span>
+<span class="nc" id="L526">        goose_fed_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L527">        chest_opened_textbox.update(delta);</span>
+<span class="nc" id="L528">        chest_opened_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L529">        found_key_textbox.update(delta);</span>
+<span class="nc" id="L530">        found_key_textbox.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+        // ----
+
+        // -- Achievements --
+<span class="nc" id="L534">        dean_achievement.update(delta);</span>
+<span class="nc" id="L535">        dean_achievement.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L536">        goose_achievement.update(delta);</span>
+<span class="nc" id="L537">        goose_achievement.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L538">        safe_achievement.update(delta);</span>
+<span class="nc" id="L539">        safe_achievement.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+<span class="nc" id="L540">        quiz_achievement.update(delta);</span>
+<span class="nc" id="L541">        quiz_achievement.draw(batch, uiStage.getViewport().getWorldWidth());</span>
+        // ----
+
+<span class="nc" id="L544">        batch.end();</span>
+
+        // Decrement the timer only if the game is not paused
+<span class="nc bnc" id="L547" title="All 2 branches missed.">        if (!isPaused) {</span>
+<span class="nc" id="L548">            gameTimer.decrementTimer(delta);</span>
+        }
+<span class="nc bnc" id="L550" title="All 2 branches missed.">        if (gameTimer.getTimeLeft() == 0) {</span>
+<span class="nc" id="L551">            gameTimer.onTimeUp();</span>
+<span class="nc" id="L552">            game.setScreen(new MenuScreen(game));</span>
+        }
+<span class="nc bnc" id="L554" title="All 2 branches missed.">        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {</span>
+<span class="nc" id="L555">            game.setScreen(new MenuScreen(game));</span>
+        }
+<span class="nc bnc" id="L557" title="All 2 branches missed.">		if (gameTimer.getTimeLeft() == 0) {</span>
+<span class="nc" id="L558">			gameTimer.onTimeUp();</span>
+<span class="nc" id="L559">			game.setScreen(new GameOverScreen(game));</span>
+		}
+<span class="nc bnc" id="L561" title="All 6 branches missed.">        if (page1.getLooking() || page2.getLooking() || safe.isChecked()) {</span>
+<span class="nc" id="L562">            movement = false;</span>
+        }
+        else {
+<span class="nc" id="L565">            movement = true;</span>
+        }
+<span class="nc" id="L567">		uiStage.act(delta);</span>
+<span class="nc" id="L568">		uiStage.draw();</span>
+<span class="nc" id="L569">	}</span>
+
+    /**
+     * Move the player and interacting with the world and menus every frame when
+     * the corresponding keys are pressed:
+     * &lt;ul&gt;
+     * &lt;li&gt; WASD - Move Character Up/Left/Down/Right/Diagonal. Now uses arrow keys&lt;/li&gt;
+     * &lt;li&gt; E - Interact with items.&lt;/li&gt;
+     * &lt;li&gt; Esc - Pause Game.&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+    private void handleInput(float delta) {
+<span class="nc" id="L581">        float moveSpeed = 120f;</span>
+<span class="nc bnc" id="L582" title="All 4 branches missed.">        if (locker != null &amp;&amp; locker.isBoostActive()) {</span>
+<span class="nc" id="L583">            moveSpeed = 140f;</span>
+        }
+
+<span class="nc bnc" id="L586" title="All 4 branches missed.">        boolean up = Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP);</span>
+<span class="nc bnc" id="L587" title="All 4 branches missed.">        boolean down = Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN);</span>
+<span class="nc bnc" id="L588" title="All 4 branches missed.">        boolean left = Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);</span>
+<span class="nc bnc" id="L589" title="All 4 branches missed.">        boolean right = Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);</span>
+
+<span class="nc" id="L591">        float newX = player.getPosition().x;</span>
+<span class="nc" id="L592">        float newY = player.getPosition().y;</span>
+<span class="nc" id="L593">        float dx = 0;</span>
+<span class="nc" id="L594">        float dy = 0;</span>
+
+<span class="nc bnc" id="L596" title="All 4 branches missed.">        if (up &amp;&amp; movement) {</span>
+<span class="nc" id="L597">            dy += 1;</span>
+        }
+<span class="nc bnc" id="L599" title="All 4 branches missed.">        if (down &amp;&amp; movement) {</span>
+<span class="nc" id="L600">            dy -= 1;</span>
+        }
+<span class="nc bnc" id="L602" title="All 4 branches missed.">        if (left &amp;&amp; movement) {</span>
+<span class="nc" id="L603">            dx -= 1;</span>
+        }
+<span class="nc bnc" id="L605" title="All 4 branches missed.">        if (right &amp;&amp; movement) {</span>
+<span class="nc" id="L606">            dx += 1;</span>
+        }
+
+<span class="nc bnc" id="L609" title="All 4 branches missed.">        if (dx != 0 || dy != 0) {</span>
+<span class="nc" id="L610">            float length = (float)Math.sqrt(dx*dx + dy*dy);</span>
+<span class="nc" id="L611">            dx /= length;</span>
+<span class="nc" id="L612">            dy /= length;</span>
+        }
+
+<span class="nc bnc" id="L615" title="All 2 branches missed.">        float multiplier = slimeObj.getSlimeCheck() ? 0.5f : 1f;</span>
+
+        //newX += dx * moveSpeed * multiplier * delta;
+        //newY += dy * moveSpeed * multiplier * delta;
+
+<span class="nc bnc" id="L620" title="All 4 branches missed.">        if (dx &gt; 0 &amp;&amp; dy &gt; 0) {</span>
+<span class="nc" id="L621">            player.setDirection(Player.Direction.NORTHEAST);</span>
+        }
+<span class="nc bnc" id="L623" title="All 4 branches missed.">        else if (dx &lt; 0 &amp;&amp; dy &gt; 0) {</span>
+<span class="nc" id="L624">            player.setDirection(Player.Direction.NORTHWEST);</span>
+        }
+<span class="nc bnc" id="L626" title="All 4 branches missed.">        else if (dx &gt; 0 &amp;&amp; dy &lt; 0) {</span>
+<span class="nc" id="L627">            player.setDirection(Player.Direction.SOUTHEAST);</span>
+        }
+<span class="nc bnc" id="L629" title="All 4 branches missed.">        else if (dx &lt; 0 &amp;&amp; dy &lt; 0) {</span>
+<span class="nc" id="L630">            player.setDirection(Player.Direction.SOUTHWEST);</span>
+        }
+<span class="nc bnc" id="L632" title="All 2 branches missed.">        else if (dx &gt; 0) {</span>
+<span class="nc" id="L633">            player.setDirection(Player.Direction.RIGHT);</span>
+        }
+<span class="nc bnc" id="L635" title="All 2 branches missed.">        else if (dx &lt; 0) {</span>
+<span class="nc" id="L636">            player.setDirection(Player.Direction.LEFT);</span>
+        }
+<span class="nc bnc" id="L638" title="All 2 branches missed.">        else if (dy &gt; 0) {</span>
+<span class="nc" id="L639">            player.setDirection(Player.Direction.UP);</span>
+        }
+<span class="nc bnc" id="L641" title="All 2 branches missed.">        else if (dy &lt; 0) {</span>
+<span class="nc" id="L642">            player.setDirection(Player.Direction.DOWN);</span>
+        }
+
+        //trying to make the collision feel slightly less 'sticky'.
+        //checks x and y independently
+<span class="nc" id="L647">        newX = player.getPosition().x + dx * moveSpeed * multiplier * delta;</span>
+<span class="nc" id="L648">        newY = player.getPosition().y + dy * moveSpeed * multiplier * delta;</span>
+
+<span class="nc bnc" id="L650" title="All 2 branches missed.">        if (!isCellBlocked(newX, player.getPosition().y)) {</span>
+<span class="nc" id="L651">            player.getPosition().x = newX;</span>
+        }
+<span class="nc bnc" id="L653" title="All 2 branches missed.">        if (!isCellBlocked(player.getPosition().x, newY)) {</span>
+<span class="nc" id="L654">            player.getPosition().y = newY;</span>
+        }
+
+<span class="nc bnc" id="L657" title="All 4 branches missed.">        if (canPickUpTicket &amp;&amp; Gdx.input.isKeyJustPressed(Input.Keys.E)) {</span>
+<span class="nc" id="L658">            busTicket.collect();</span>
+<span class="nc" id="L659">            canPickUpTicket = false;</span>
+        }
+
+<span class="nc bnc" id="L662" title="All 4 branches missed.">        if (canEndGame &amp;&amp; Gdx.input.isKeyJustPressed(Input.Keys.E)) {</span>
+<span class="nc" id="L663">            int finalScore = calculateFinalScore();</span>
+<span class="nc" id="L664">            int timeRemaining = (int) gameTimer.getTimeLeft();</span>
+<span class="nc" id="L665">            int timesCaught = getTimesCaughtByDean();</span>
+<span class="nc" id="L666">            game.won = true;</span>
+<span class="nc" id="L667">            game.setScreen(new WinScreen(game, finalScore, timeRemaining, timesCaught));</span>
+        }
+
+<span class="nc bnc" id="L670" title="All 2 branches missed.">        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {</span>
+<span class="nc bnc" id="L671" title="All 2 branches missed.">            isPaused = !isPaused;</span>
+        }
+<span class="nc" id="L673">    }</span>
+
+    /**
+     * Returns if the cell at a given coordinate in the world allows an entity
+     * to move onto it.Useful for checking collisions when moving player or another
+     * entity.
+     * @param x Horizontal position of cell in the world.
+     * @param y Vertical position of cell in the world.
+     * @return True if cell blocks entities to move onto it, False if entities can move onto it.
+     */
+    public boolean isCellBlocked(float x, float y) {
+<span class="nc bnc" id="L684" title="All 2 branches missed.">        for (int i = 0; i &lt; tiledMap.getLayers().getCount(); i++) {</span>
+<span class="nc bnc" id="L685" title="All 2 branches missed.">            if (tiledMap.getLayers().get(i) instanceof TiledMapTileLayer) {</span>
+<span class="nc" id="L686">                TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(i);</span>
+<span class="nc" id="L687">                int tileX = (int) ((x + 8) / layer.getTileWidth());</span>
+<span class="nc" id="L688">                int tileY = (int) ((y + 8) / layer.getTileHeight());</span>
+<span class="nc" id="L689">                TiledMapTileLayer.Cell cell = layer.getCell(tileX, tileY);</span>
+
+<span class="nc bnc" id="L691" title="All 4 branches missed.">                if (cell != null &amp;&amp; cell.getTile() != null) {</span>
+<span class="nc bnc" id="L692" title="All 4 branches missed.">                    if (cell.getTile().getProperties().containsKey(&quot;collidable&quot;) || layer.getProperties().containsKey(&quot;collidable&quot;)) {</span>
+<span class="nc" id="L693">                        return true;</span>
+                    }
+                }
+            }
+        }
+<span class="nc" id="L698">        return false;</span>
+    }
+
+    /**
+     * Calculate the player's final score
+     */
+    public int calculateFinalScore() {
+<span class="nc" id="L705">        return FinalScoreLogic.calculate(</span>
+<span class="nc" id="L706">            gameTimer.getTimeLeft(),</span>
+            timesCaughtByDean,
+            goose_unlocked,
+            dean_unlocked,
+            quiz_unlocked
+        );
+    }
+
+
+    /**
+     * UPDATE
+     */
+    public void onSafeOpened() {
+<span class="nc bnc" id="L719" title="All 2 branches missed.">        if (!safeCounted) {</span>
+<span class="nc" id="L720">            negativeEvents++;</span>
+<span class="nc" id="L721">            safeCounted = true;</span>
+<span class="nc" id="L722">            safe_achievement.show();</span>
+<span class="nc" id="L723">            gameTimer.addTime(-30f);</span>
+        }
+<span class="nc" id="L725">    }</span>
+
+    /**
+     *
+     */
+    public void onQuizAnsweredCorrectly() {
+<span class="nc bnc" id="L731" title="All 2 branches missed.">        if (!quizCorrectCounted) {</span>
+<span class="nc" id="L732">            positiveEvents++;</span>
+<span class="nc" id="L733">            quizCorrectCounted = true;</span>
+<span class="nc" id="L734">            quiz_achievement.show();</span>
+        }
+<span class="nc" id="L736">    }</span>
+
+    public void onQuizAnsweredIncorrectly() {
+<span class="nc bnc" id="L739" title="All 2 branches missed.">        if (!quizWrongCounted) {</span>
+<span class="nc" id="L740">            negativeEvents++;</span>
+<span class="nc" id="L741">            quizWrongCounted = true;</span>
+        }
+<span class="nc" id="L743">    }</span>
+    public void onHiddenEventCollected() {
+<span class="nc bnc" id="L745" title="All 2 branches missed.">        if (!repellentCounted) {</span>
+<span class="nc" id="L746">            hiddenEvents++;</span>
+<span class="nc" id="L747">            repellentCounted = true;</span>
+        }
+<span class="nc" id="L749">    }</span>
+
+    /**
+     * Resize UI and game map viewports when the window size is changed.
+     * @param width Current width of window.
+     * @param height Current height of window.
+     * @see com.badlogic.gdx.Screen#resize Screen.resize().
+     */
+    @Override
+    public void resize(int width, int height) {
+<span class="nc" id="L759">        uiStage.getViewport().update(width, height, true);</span>
+<span class="nc" id="L760">        uiStage.getViewport().apply();</span>
+<span class="nc" id="L761">        viewport.update(width, height);</span>
+<span class="nc" id="L762">        viewport.apply();</span>
+<span class="nc" id="L763">    }</span>
+
+    /**
+     * Get the number of times the player is caught by the Dean
+     */
+    public int getTimesCaughtByDean() {
+<span class="nc" id="L769">        return timesCaughtByDean;</span>
+    }
+
+    public boolean getSlimeCheck() {
+<span class="nc" id="L773">        return slimeCheck;</span>
+    }
+
+    public void setSlimeCheck(boolean newSlime) {
+<span class="nc" id="L777">        slimeCheck = newSlime;</span>
+<span class="nc" id="L778">    }</span>
+
+    /**
+     * Dipose of all assets and UI elements when game screen is left i.e
+     * when the player wins the game or quits.
+     * @see com.badlogic.gdx.Screen#dispose Screen.dispose().
+     */
+    @Override
+    public void dispose() {
+<span class="nc" id="L787">        tiledMap.dispose();</span>
+<span class="nc" id="L788">        mapRenderer.dispose();</span>
+<span class="nc" id="L789">        batch.dispose();</span>
+<span class="nc" id="L790">        player.dispose();</span>
+<span class="nc" id="L791">        locker.dispose();</span>
+<span class="nc" id="L792">        book1.dispose();</span>
+<span class="nc" id="L793">        font.dispose();</span>
+<span class="nc" id="L794">        uiStage.dispose();</span>
+<span class="nc" id="L795">        dean.dispose();</span>
+<span class="nc" id="L796">        goose.dispose();</span>
+<span class="nc" id="L797">        catchCounterFont.dispose();</span>
+<span class="nc" id="L798">        friend.dispose();</span>
+<span class="nc" id="L799">        friend2.dispose();</span>
+<span class="nc" id="L800">        friend3.dispose();</span>
+<span class="nc bnc" id="L801" title="All 2 branches missed.">        if (busTicket != null) { busTicket.dispose(); }</span>
+<span class="nc" id="L802">    }</span>
+
+    /** Unimplemented */
+    @Override
+<span class="nc" id="L806">    public void show() {}</span>
+
+    /** Unimplemented */
+    @Override
+<span class="nc" id="L810">    public void pause() {}</span>
+
+    /** Unimplemented */
+    @Override
+<span class="nc" id="L814">    public void resume() {}</span>
+
+    /** Unimplemented */
+    @Override
+<span class="nc" id="L818">    public void hide() {}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

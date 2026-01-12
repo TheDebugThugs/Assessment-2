@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GooseLogic.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">GooseLogic.java</span></div><h1>GooseLogic.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.math.Vector2;
+
+/**
+ * Handles movement and interaction logic for Goose.
+ */
+public class GooseLogic {
+
+    private Vector2 position;
+    private float speed;
+    private float stopDistance;
+    private boolean fed;
+
+<span class="fc" id="L15">    public GooseLogic(float x, float y, float speed, float stopDistance) {</span>
+<span class="fc" id="L16">        this.position = new Vector2(x, y);</span>
+<span class="fc" id="L17">        this.speed = speed;</span>
+<span class="fc" id="L18">        this.stopDistance = stopDistance;</span>
+<span class="fc" id="L19">        this.fed = false;</span>
+<span class="fc" id="L20">    }</span>
+
+    public void update(Vector2 playerPos, float delta, CellBlockChecker checker) {
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (fed) return;</span>
+
+<span class="fc" id="L25">        float distance = position.dst(playerPos);</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (distance &lt;= stopDistance) return;</span>
+
+<span class="fc" id="L28">        Vector2 direction = new Vector2(playerPos).sub(position).nor();</span>
+
+<span class="fc" id="L30">        float newX = position.x + direction.x * speed * delta;</span>
+<span class="fc" id="L31">        float newY = position.y + direction.y * speed * delta;</span>
+
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if (!checker.isCellBlocked(newX, newY)) {</span>
+<span class="fc" id="L34">            position.set(newX, newY);</span>
+        }
+<span class="fc" id="L36">    }</span>
+
+    public boolean caughtPlayer(Vector2 playerPos) {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        return position.dst(playerPos) &lt;= stopDistance;</span>
+    }
+
+    public void feed() {
+<span class="fc" id="L43">        fed = true;</span>
+<span class="fc" id="L44">    }</span>
+
+    public void reduceStopDistance() {
+<span class="fc" id="L47">        stopDistance = 5f;</span>
+<span class="fc" id="L48">    }</span>
+
+    public Vector2 getPosition() {
+<span class="fc" id="L51">        return position;</span>
+    }
+
+    public boolean isFed() {
+<span class="fc" id="L55">        return fed;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

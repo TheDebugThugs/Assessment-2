@@ -33,6 +33,9 @@ Assessment 1 Team:
 
 # PDF Links From Assessment Part 2
 
+## Test Reports
+- [JaCoCo Coverage Report]({{ site.baseurl }}/assets/reports/jacoco/)
+- [PIT Mutation Testing Report]({{ site.baseurl }}/assets/reports/pit/)
 # PDF Links From Assessment Part 1
 - [Requirements](/assets/PDFs/Req1.pdf)
 - [Architecture](/assets/PDFs/Arch1.pdf)

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TutorialScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">TutorialScreen.java</span></div><h1>TutorialScreen.java</h1><pre class="source lang-java linenums">
+package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+
+public class TutorialScreen implements Screen {
+    private final MyGame game;
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+    private Texture tutorialImage;
+    private FitViewport viewport;
+
+<span class="nc" id="L20">    private final int MENU_WIDTH = 790;</span>
+<span class="nc" id="L21">    private final int MENU_HEIGHT = 480;</span>
+
+<span class="nc" id="L23">    public TutorialScreen(MyGame game) {</span>
+<span class="nc" id="L24">        this.game = game;</span>
+<span class="nc" id="L25">        camera = new OrthographicCamera();</span>
+<span class="nc" id="L26">        camera.setToOrtho(false, MENU_WIDTH, MENU_HEIGHT);</span>
+<span class="nc" id="L27">        batch = new SpriteBatch();</span>
+
+        // Load the tutorial screen image
+<span class="nc" id="L30">        tutorialImage = new Texture(&quot;how_to_play_final.png&quot;);</span>
+
+<span class="nc" id="L32">        viewport = new FitViewport(MENU_WIDTH, MENU_HEIGHT, camera);</span>
+<span class="nc" id="L33">    }</span>
+
+    @Override
+    public void render(float delta) {
+<span class="nc" id="L37">        Gdx.gl.glClearColor(0, 0, 0, 1);</span>
+<span class="nc" id="L38">        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</span>
+
+<span class="nc" id="L40">        camera.update();</span>
+<span class="nc" id="L41">        batch.setProjectionMatrix(camera.combined);</span>
+
+<span class="nc" id="L43">        batch.begin();</span>
+        // Draw the image to fill the screen
+<span class="nc" id="L45">        batch.draw(tutorialImage, 0, 0, MENU_WIDTH, MENU_HEIGHT);</span>
+<span class="nc" id="L46">        batch.end();</span>
+
+        // --- Handle input via TutorialScreenLogic ---
+<span class="nc" id="L49">        TutorialScreenLogic.Action action = TutorialScreenLogic.decide(</span>
+<span class="nc" id="L50">            Gdx.input.isKeyJustPressed(Input.Keys.SPACE),</span>
+<span class="nc" id="L51">            Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)</span>
+        );
+
+<span class="nc bnc" id="L54" title="All 3 branches missed.">        switch (action) {</span>
+            case START_GAME:
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                if (!game.won) {</span>
+<span class="nc" id="L57">                    game.goToGame();</span>
+                } else {
+<span class="nc" id="L59">                    game.restartGame();</span>
+                }
+<span class="nc" id="L61">                break;</span>
+
+            case EXIT:
+<span class="nc" id="L64">                Gdx.app.exit();</span>
+<span class="nc" id="L65">                break;</span>
+
+            case NONE:
+                // No action, continue rendering
+                break;
+        }
+<span class="nc" id="L71">    }</span>
+    @Override
+    public void resize(int width, int height) {
+<span class="nc" id="L74">        viewport.update(width, height);</span>
+<span class="nc" id="L75">    }</span>
+
+    @Override
+    public void dispose() {
+<span class="nc" id="L79">        batch.dispose();</span>
+<span class="nc" id="L80">        tutorialImage.dispose();</span>
+<span class="nc" id="L81">    }</span>
+
+    @Override
+<span class="nc" id="L84">    public void show(){} //show main menu screen</span>
+
+    @Override
+<span class="nc" id="L87">    public void pause(){} //not yet implemented</span>
+
+    @Override
+<span class="nc" id="L90">    public void resume(){}</span>
+
+    @Override
+<span class="nc" id="L93">    public void hide(){}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

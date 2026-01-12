@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeanRepellent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.some_example_name</a> &gt; <span class="el_source">DeanRepellent.java</span></div><h1>DeanRepellent.java</h1><pre class="source lang-java linenums">package io.github.some_example_name;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+
+public class DeanRepellent {
+
+    //private boolean collected = false;
+    //private boolean usable = false;
+    //private boolean eventTriggered = false; // ensures hiddenEvents increments once
+
+    private final Texture bottleTexture;
+    private final Vector2 position;
+<span class="nc" id="L17">    private final DeanRepellentLogic logic = new DeanRepellentLogic();</span>
+
+<span class="nc" id="L19">    public DeanRepellent(float x, float y) {</span>
+<span class="nc" id="L20">        bottleTexture = new Texture(&quot;Dean-Repellent.png&quot;);</span>
+<span class="nc" id="L21">        position = new Vector2(x, y);</span>
+<span class="nc" id="L22">    }</span>
+
+    /**
+     * Update the bottle state.
+     *
+     * @param player Player reference for distance checking
+     * @param dean Dean reference for repelling
+     * @param caught Number of times Dean caught the player
+     * @param delta Delta time (unused here but may be used later)
+     * @param gameScreen GameScreen reference to notify about hidden events
+     */
+    public void update(Player player, Dean dean, int caught, float delta, GameScreen gameScreen) {
+<span class="nc" id="L34">        float distance = player.getPosition().dst(position);</span>
+<span class="nc" id="L35">        logic.discover(distance);</span>
+<span class="nc" id="L36">        boolean ePressed = Gdx.input.isKeyJustPressed(Input.Keys.E);</span>
+<span class="nc" id="L37">        boolean wasCollected = logic.isCollected();</span>
+
+<span class="nc" id="L39">        logic.pickUp(distance, ePressed);</span>
+
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        if (!wasCollected &amp;&amp; logic.isCollected()) {</span>
+<span class="nc" id="L42">            dean.setRepelled(true);</span>
+<span class="nc" id="L43">            gameScreen.onHiddenEventCollected();</span>
+        }
+<span class="nc" id="L45">    }</span>
+
+    public void render(SpriteBatch batch) {
+<span class="nc bnc" id="L48" title="All 4 branches missed.">        if (!logic.isCollected() &amp;&amp; logic.isUsable()) {</span>
+<span class="nc" id="L49">            batch.draw(bottleTexture, position.x, position.y, 15, 15);</span>
+        }
+<span class="nc" id="L51">    }</span>
+
+    public boolean isCollected() {
+<span class="nc" id="L54">        return logic.isCollected();</span>
+    }
+
+    public void dispose() {
+<span class="nc" id="L58">        bottleTexture.dispose();</span>
+<span class="nc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
