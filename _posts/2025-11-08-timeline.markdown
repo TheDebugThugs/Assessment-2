@@ -34,12 +34,12 @@ Manual Test Cases:
 
 ![Sequence Diagram](/Assessment-2/assets/SequenceDiagram.png)
 
-## Edited CRC cards
+## Edited CRC cards (added to Assessment 1 table)
 
-![CRC Card 1](/Assessment-2/assets/CRCards1.png)
-![CRC Card 2](/Assessment-2/assets/CRCards2.png)
+![CRC Card 1](/Assessment-2/assets/CRCCards1.png)
+![CRC Card 2](/Assessment-2/assets/CRCCards2.png)
 
-## Traceability to Requirements
+## Traceability to Requirements (added to Assessment 1 table)
 
 ![Traceability](/Assessment-2/assets/Traceability.png)
 ![Traceability 2](/Assessment-2/assets/Traceability2.png)
