@@ -22,6 +22,29 @@ Manual Test Cases:
 
 - [Download Manual Test Cases (PDF)](/Assessment-2/assets/Manual-Test-Cases.pdf)
 
+## Structural Diagram
+
+![Structural Diagram](/Assessment-2/assets/StructuralDiagram.png)
+
+## State Machine Diagrams
+
+![State Machine Diagram](/Assessment-2/assets/StateMachineDiagrams.png)
+
+## Sequence Diagrams
+
+![Sequence Diagram](/Assessment-2/assets/SequenceDiagram.png)
+
+## Edited CRC cards
+
+![CRC Card 1](/Assessment-2/assets/CRCards1.png)
+![CRC Card 2](/Assessment-2/assets/CRCards2.png)
+
+## Traceability to Requirements
+
+![Traceability](/Assessment-2/assets/Traceability.png)
+![Traceability 2](/Assessment-2/assets/Traceability2.png)
+![Traceability 3](/Assessment-2/assets/Traceability3.png)
+
 ## Weekly Log
 ![Timline Update 1](/Assessment-2/assets/FWeek1.png)
 ![Timline Update 2](/Assessment-2/assets/FWeek2.png)
