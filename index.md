@@ -13,11 +13,11 @@ You wake up in your student accommodation and look outside to realise your campu
 - Feed the local goose!
 
 # Deliverable PDF Links From Assessment Part 2
-- [Change Report](/Assessment-2/assets/PDFs/Change2.pdf)
-- [Implementation](/Assessment-2/assets/PDFs/Impl2.pdf)
-- [Testing](/Assessment-2/assets/PDFs/Test2.pdf)
-- [User Evaluation](/Assessment-2/assets/PDFs/Eval2.pdf)
-- [Continuous Integration](/Assessment-2/assets/PDFs/CI2.pdf)
+- [Change Report](/Assessment-2/assets/Change2.pdf)
+- [Implementation](/Assessment-2/assets/Impl2.pdf)
+- [Testing](/Assessment-2/assets/Test2.pdf)
+- [User Evaluation](/Assessment-2/assets/Eval2.pdf)
+- [Continuous Integration](/Assessment-2/assets/CI2.pdf)
 
 # Deliverable PDF Links From Assessment Part 1
 - [Requirements](/Assessment-2/assets/PDFs/Req1.pdf)
